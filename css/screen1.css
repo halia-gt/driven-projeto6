@@ -4,7 +4,7 @@ section {
 }
 
 
-section.your-quiz-container .no-quiz {
+section.your-quizzes-container .no-quiz {
     height: 180px;
     width: 100%;
     border: 1px dashed #D5D5D5;
@@ -16,14 +16,14 @@ section.your-quiz-container .no-quiz {
     align-items: center;
 }
 
-section.your-quiz-container .no-quiz p {
+section.your-quizzes-container .no-quiz p {
     color: #B9B9B9;
     width: 200px;
     text-align: center;
     line-height: 23px;
 }
 
-section.your-quiz-container .no-quiz button {
+section.your-quizzes-container .no-quiz button {
     color: #EC362D;
     width: 150px;
     height: 40px;
@@ -36,7 +36,7 @@ section.your-quiz-container .no-quiz button {
     font-size: 20px;
 }
 
-section.your-quiz-container .your-quiz {
+section.your-quizzes-container .your-quizzes {
     width: 100%;
 }
 
@@ -59,7 +59,6 @@ section.your-quiz-container .your-quiz {
     left: 18px;
     bottom: 18px;
     width: 90%;
-
 }
 
 
