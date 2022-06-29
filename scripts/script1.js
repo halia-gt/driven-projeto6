@@ -23,3 +23,14 @@ function validURL(string){
       }
       return true;
 };
+
+function quizzQuestions(){
+    teste(document.querySelector(".creating-quiz-question-title").children[1].value);
+}
+
+function checkHex(string){
+    let comparator = /^#[0-9A-F]{6}$/i;
+
+    if(comparator.test(string) console.log("true");
+    else console.log("false");
+}
