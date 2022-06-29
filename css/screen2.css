@@ -59,6 +59,8 @@
 
 .quiz-option {
     width: 49%;
+    cursor: pointer;
+    margin-bottom: 0.3em;
 }
 
 .quiz-option img {
