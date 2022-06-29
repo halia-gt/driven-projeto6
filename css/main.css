@@ -21,6 +21,7 @@ header {
     align-items: center;
     justify-content: center;
     z-index: 1;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 header img {
@@ -29,7 +30,7 @@ header img {
 
 main {
     margin-top: 70px;
-    padding: 35px 0;
+    padding-bottom: 35px;
 }
 
 section {
@@ -44,7 +45,6 @@ section.banner {
 .title {
     font-weight: 700;
     color: #000000;
-    margin-bottom: 16px;
 }
 
 @media (min-width: 1100px) {
