@@ -20,7 +20,7 @@
         <section class="your-quizzes-container">
             <div class="no-quiz">
                 <p>Você não criou nenhum quizz ainda :(</p>
-                <button type="button">Criar Quizz</button>
+                <button type="button" onclick="renderCreationQuizz();">Criar Quizz</button>
             </div>
             <div class="your-quizzes">
                 <h3 class="title">Seus Quizzes</h3>
@@ -126,49 +126,6 @@
         <section class="button">
             <button class="restart-quiz">Reiniciar Quizz</button>
             <p>Voltar pra home</p>
-        </section>
-        <section class="creating-quiz-basic-container banner">
-            <h3 class="title">Comece pelo começo</h3>
-            <div class="creating-quiz-basic-questions">
-                <input type="text" placeholder="Título do seu quizz">
-                <input type="url" placeholder="URL da imagem do seu quizz">
-                <input type="number" placeholder="Quantidade de perguntas do quizz">
-                <input type="number" placeholder="Quantidade de níveis do quizz">
-            </div>
-            <button type="button" onclick="basicInformation();">Prosseguir pra criar perguntas</button>
-        </section>
-        <section class="creating-quiz-questions-container banner">
-            <h3 class="title">Crie suas perguntas</h3>
-            <div class="creating-quiz-question">
-                <h3>Pergunta 1</h3>
-                <div class="creating-quiz-question-title">
-                    <input type="text" placeholder="Texto da pergunta">
-                    <input type="text" placeholder="Cor de fundo da pergunta">
-                </div>
-                <h3>Resposta correta</h3>
-                <div class="creating-quiz-question-correct">
-                    <input type="text" placeholder="Resposta correta">
-                    <input type="text" placeholder="URL da imagem">
-                </div>
-                <h3>Respostas incorretas</h3>
-                <div class="creating-quiz-question-incorrect">
-                    <input type="text" placeholder="Resposta incorreta 1">
-                    <input type="text" placeholder="URL da imagem 1">
-                </div>
-                <div class="creating-quiz-question-incorrect">
-                    <input type="text" placeholder="Resposta incorreta 2">
-                    <input type="text" placeholder="URL da imagem 2">
-                </div>
-                <div class="creating-quiz-question-incorrect">
-                    <input type="text" placeholder="Resposta incorreta 3">
-                    <input type="text" placeholder="URL da imagem 3">
-                </div>
-            </div>
-            <div class="creating-quiz-question-closed">
-                <h3 class="title">Pergunta 2</h3>
-                <img src="./images/create-outline.png">
-            </div>
-            <button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>
         </section>
 
         <section class="creating-quiz-level-container banner">
