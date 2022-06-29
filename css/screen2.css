@@ -127,3 +127,7 @@
 .right-choice {
     color: #009C22;
 }
+
+.hidden {
+    display: none;
+}
