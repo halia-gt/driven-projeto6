@@ -96,17 +96,17 @@ function renderQuizQuestions(main) {
     }
 }
 
-function displayQuestionOptions(array, question, i) {
+function displayQuestionOptions(array, question, j) {
     const answers = array;
     const options = question.querySelector('.quiz-options');
     answers.sort(sortArray);
-    quiz.questions[i].answers = answers;
+    quiz.questions[j].answers = answers;
 
     options.innerHTML = '';
     for (let i = 0 ; i < answers.length ; i++) {
         const answer = answers[i];
         const optionTemplate = `
-            <div class="quiz-option" onclick="selectOption(this)">
+            <div class="quiz-option" onclick="selectOption(this, ${j})">
                 <img src="${answer.image}">
                 <p>${answer.text}</p>
             </div>
@@ -115,13 +115,16 @@ function displayQuestionOptions(array, question, i) {
     }
 }
 
-function selectOption(element) {
+function selectOption(element, questionNumber) {
     const allOptions = element.parentNode.querySelectorAll('.quiz-option');
-   
+    const nextQuestion = element.parentNode.parentNode.nextSibling;
+    
+    let i = 0;
     allOptions.forEach( function (option) {
         addOpacity(option, element);
         removeClick(option);
-        addColorText(option);
+        addColorText(option, questionNumber, i);
+        i++;
     });
 }
 
@@ -135,8 +138,15 @@ function removeClick(option) {
     option.removeAttribute('onclick');
 }
 
-function addColorText(option) {
+function addColorText(option, questionNumber, answerNumber) {
     const p = option.querySelector('p');
+    const isCorrect = quiz.questions[questionNumber].answers[answerNumber].isCorrectAnswer;
+
+    if (isCorrect === true) {
+        p.classList.add('right-choice');
+    } else {
+        p.classList.add('wrong-choice');
+    }
 }
 
 function sortArray() { 
