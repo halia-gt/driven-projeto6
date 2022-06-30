@@ -1,5 +1,5 @@
 
-let numberQuestions, numberLevel;
+let numberQuestions, numberLevel, imgUrl, quizzTitle;
 
 const creationQuizzLayout = `
     <div class="creating-quiz-question-title">
@@ -54,12 +54,14 @@ function basicInformation(){
 
     numberQuestions = qttQuestions;
     numberLevel = qttLevel;
+    imgUrl = url;
+    quizzTitle = title;
     checksBasicInformation(title, url, qttQuestions, qttLevel);
     
 }
 
 function checksBasicInformation(title, url, qttQuestions, qttLevel){
-    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) renderLevelQuizz();//renderQuizzQuestions();
+    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) renderQuizzQuestions();
     else{
         alert("Preencha novamente os dados!");
         renderQuizzCreation();
@@ -239,7 +241,7 @@ function quizzLevel(){
         }
 
         if(counterTrue === Number(numberLevel)){
-            if(checkAmountOfLevelZero(arrayInput)) alert("passou papai");
+            if(checkAmountOfLevelZero(arrayInput)) renderSuccessScreen();
             else {
                 alert("Preencha os dados novamente!");
                 renderLevelQuizz();
@@ -265,4 +267,21 @@ function checkAmountOfLevelZero(array){
     }
     if(counterZero > 0) return true;
     else return false;
+}
+
+function renderSuccessScreen(){
+    document.querySelector("main").innerHTML = `
+    <section class="created-quiz-container">
+    <h3 class="title">Seu quizz está pronto!</h3>
+    <div class="quiz">
+        <img src="${imgUrl}">
+        <div class="quiz-gradient"></div>
+        <p>${quizzTitle}</p>
+    </div>
+    </section>
+    <section class="button">
+        <button class="acess-quiz">Acessar Quizz</button>
+        <p>Voltar pra home</p>
+    </section>
+    `;
 }
