@@ -17,8 +17,10 @@ function renderCreationQuizz(){
     document.querySelector("main").innerHTML = layoutBasicInformation;
 }
 
-function renderQuestionsQuizz(){
+function renderQuestionsQuizz(qttQuestions){
 
+    const buttonQuestionQuizz = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>`;
+    
     const layoutQuestionsQuizz = `
         <section class="creating-quiz-questions-container banner">
             <h3 class="title">Crie suas perguntas</h3>
@@ -47,14 +49,20 @@ function renderQuestionsQuizz(){
                     <input type="text" placeholder="URL da imagem 3">
                 </div>
             </div>
-            <div class="creating-quiz-question-closed">
-                <h3 class="title">Pergunta 2</h3>
-                <img src="./images/create-outline.png">
-            </div>
-            <button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>
         </section>
     `;
     document.querySelector("main").innerHTML = layoutQuestionsQuizz;
+
+    for(let i=1; i<qttQuestions; i++){
+        document.querySelector(".creating-quiz-questions-container").innerHTML += `
+            <div class="creating-quiz-question-closed">
+            <h3 class="title">Pergunta ${i+1}</h3>
+            <img src="./images/create-outline.png">
+            </div>
+        `;
+    } 
+
+    document.querySelector(".creating-quiz-questions-container").innerHTML += buttonQuestionQuizz;
 }
 
 function basicInformation(){
@@ -70,7 +78,7 @@ function basicInformation(){
 }
 
 function checksBasicInformation(title, url, qttQuestions, qttLevel){
-    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) return renderQuestionsQuizz();
+    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) return renderQuestionsQuizz(qttQuestions);
     else{
         alert("Preencha novamente os dados!");
         renderCreationQuizz();
@@ -84,7 +92,7 @@ function validURL(string){
         return false;
       }
       return true;
-};
+}
 
 function quizzQuestions(){
     checkHex(document.querySelector(".creating-quiz-question-title").children[1].value);
