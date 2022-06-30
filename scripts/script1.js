@@ -1,7 +1,7 @@
 
-let numberQuestions;
+let numberQuestions, numberLevel, imgUrl, quizzTitle;
 
-const layoutCreationQuizz = `
+const creationQuizzLayout = `
     <div class="creating-quiz-question-title">
     <input type="text" placeholder="Texto da pergunta">
     <input type="text" placeholder="Cor de fundo da pergunta">
@@ -53,12 +53,15 @@ function basicInformation(){
     const qttLevel = dom.children[3].value;
 
     numberQuestions = qttQuestions;
+    numberLevel = qttLevel;
+    imgUrl = url;
+    quizzTitle = title;
     checksBasicInformation(title, url, qttQuestions, qttLevel);
     
 }
 
 function checksBasicInformation(title, url, qttQuestions, qttLevel){
-    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) return renderQuizzQuestions(qttQuestions);
+    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) renderQuizzQuestions();
     else{
         alert("Preencha novamente os dados!");
         renderQuizzCreation();
@@ -74,11 +77,11 @@ function validURL(string){
       return true;
 }
 
-function renderQuizzQuestions(qttQuestions){
+function renderQuizzQuestions(){
 
-    const buttonQuestionQuizz = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>`;
+    const quizzQuestionButton = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>`;
     
-    const layoutQuestionsQuizz = `
+    const quizzQuestionLayout = `
         <section class="creating-quiz-questions-container banner">
             <h3 class="title">Crie suas perguntas</h3>
             <div class="creating-quiz-question">
@@ -86,11 +89,11 @@ function renderQuizzQuestions(qttQuestions){
             </div>
         </section>
     `;
-    document.querySelector("main").innerHTML = layoutQuestionsQuizz;
+    document.querySelector("main").innerHTML = quizzQuestionLayout;
 
-    for(let i=0; i<qttQuestions; i++){
+    for(let i=0; i<numberQuestions; i++){
         if(i==0){
-            document.querySelector(".creating-quiz-question").innerHTML += layoutCreationQuizz;
+            document.querySelector(".creating-quiz-question").innerHTML += creationQuizzLayout;
         }else{
             document.querySelector(".creating-quiz-questions-container").innerHTML += `
                 <div class="creating-quiz-question-closed">
@@ -101,14 +104,14 @@ function renderQuizzQuestions(qttQuestions){
         }
     } 
 
-    document.querySelector(".creating-quiz-questions-container").innerHTML += buttonQuestionQuizz;
+    document.querySelector(".creating-quiz-questions-container").innerHTML += quizzQuestionButton;
 }
 
 function openingClosedQuestion(elemento){
     elemento.classList.add("hidden");
     elemento.parentNode.classList.add("creating-quiz-question");
     elemento.parentNode.classList.remove("creating-quiz-question-closed");
-    elemento.parentNode.innerHTML += layoutCreationQuizz;
+    elemento.parentNode.innerHTML += creationQuizzLayout;
 
 }
 
@@ -133,15 +136,39 @@ function quizzQuestions(){
 }
 
 function filterAnswer(array, counter){
-    let i, arrayAux = [], checkTrue=0;
+    let i, arrayAux = [], checkTrue=[];
     if(counter === 3) i = 0;
     else i = counter - 3;
     for(let j=i; j<counter; j++){
         arrayAux.push(array[j]);
     }
-    for(let i=0; i<arrayAux.length; i++) if(checksAnswer(arrayAux[i].children[0].value, arrayAux[i].children[1].value)) checkTrue++; 
+    for(let i=0; i<arrayAux.length; i++) {
+        if((arrayAux[i].children[0].value) === "" && (arrayAux[i].children[1].value) === "") checkTrue.push(0);
+        else {
+            if(checksAnswer(arrayAux[i].children[0].value, arrayAux[i].children[1].value)) checkTrue.push(1);
+            else checkTrue.push(2);
+        }
+    }
     
-    if(checkTrue > 0) return true;
+    if(checksArrayAnswer(checkTrue)) return true;
+    else return false;
+}
+
+function checksArrayAnswer(array){
+    let checks = true, counterZero=0, counterOne=0, i=0;
+
+    while(i<array.length){
+        if(array[i] === 2){
+            checks = false;
+            break;
+        }else{
+            if(array[i] === 0) counterZero++;
+            if(array[i] === 1) counterOne++;
+        }
+        i++;
+    }
+
+    if((counterZero!=3 && counterOne > 0 && (counterOne+counterZero) === 3) && checks === true) return true;
     else return false;
 }
 
@@ -170,15 +197,91 @@ function renderLevelQuizz(){
             <div class="creating-quiz-level">
                 <h3>Nível 1</h3>
                 <input type="text" placeholder="Título do nível">
-                <input type="text" placeholder="% de acerto mínima">
+                <input type="number" placeholder="% de acerto mínima">
                 <input type="text" placeholder="URL da imagem do nível">
                 <textarea placeholder="Descrição do nível"></textarea>
             </div>
-            <div class="creating-quiz-level-closed">
-                <h3 class="title">Nível 2</h3>
-                <img src="./images/create-outline.png">
-            </div>
-            <button type="button">Finalizar Quizz</button>
         </section>
+    `;
+
+    for(let i=1; i<numberLevel; i++){
+        document.querySelector(".creating-quiz-level-container").innerHTML += `
+            <div class="creating-quiz-level-closed">
+            <h3 class="title">Nível ${i+1}</h3>
+            <img onclick="openingClosedLevel(this);" src="./images/create-outline.png">
+            </div>
+        `;
+    }
+
+    document.querySelector(".creating-quiz-level-container").innerHTML += `<button onclick="quizzLevel();" type="button">Finalizar Quizz</button>`;
+}
+
+function openingClosedLevel(elemento){
+    elemento.classList.add("hidden");
+    elemento.parentNode.classList.add("creating-quiz-level");
+    elemento.parentNode.classList.remove("creating-quiz-level-closed");
+    elemento.parentNode.innerHTML += `                
+        <input type="text" placeholder="Título do nível">
+        <input type="number" placeholder="% de acerto mínima">
+        <input type="text" placeholder="URL da imagem do nível">
+        <textarea placeholder="Descrição do nível"></textarea>
+    `;
+}
+
+function quizzLevel(){
+
+    if( Number(numberLevel) === (document.querySelectorAll(".creating-quiz-level").length)){
+        const arrayInput = document.querySelectorAll(".creating-quiz-level input");
+        const arrayTextArea = document.querySelectorAll(".creating-quiz-level textarea");
+
+        let counter=0, counterTrue=0;
+        for(let i=0; i<Number(numberLevel); i++){
+            if(checksLevelAnswer(arrayInput[counter].value, arrayInput[counter+1].value, arrayInput[counter+2].value, arrayTextArea[i].value)) counterTrue++;
+            counter += 3;
+        }
+
+        if(counterTrue === Number(numberLevel)){
+            if(checkAmountOfLevelZero(arrayInput)) renderSuccessScreen();
+            else {
+                alert("Preencha os dados novamente!");
+                renderLevelQuizz();
+            }
+        }else{
+            alert("Preencha os dados novamente!");
+            renderLevelQuizz();
+        }
+    }
+}
+
+function checksLevelAnswer(string1, string2, string3, string4){
+
+    if(string1.length > 9 && (string2 >= 0 && string2 <= 100) && (validURL(string3)) && string4.length > 29) return true;
+    else return false;
+}
+
+function checkAmountOfLevelZero(array){
+    let counter=1, counterZero=0;
+    for(let i=0; i<Number(numberLevel); i++){
+        if(Number(array[counter].value) === 0) counterZero++;
+        counter += 3;
+    }
+    if(counterZero > 0) return true;
+    else return false;
+}
+
+function renderSuccessScreen(){
+    document.querySelector("main").innerHTML = `
+    <section class="created-quiz-container">
+    <h3 class="title">Seu quizz está pronto!</h3>
+    <div class="quiz">
+        <img src="${imgUrl}">
+        <div class="quiz-gradient"></div>
+        <p>${quizzTitle}</p>
+    </div>
+    </section>
+    <section class="button">
+        <button class="acess-quiz">Acessar Quizz</button>
+        <p>Voltar pra home</p>
+    </section>
     `;
 }
