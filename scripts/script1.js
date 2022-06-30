@@ -195,7 +195,7 @@ function renderLevelQuizz(){
             <div class="creating-quiz-level">
                 <h3>Nível 1</h3>
                 <input type="text" placeholder="Título do nível">
-                <input type="text" placeholder="% de acerto mínima">
+                <input type="number" placeholder="% de acerto mínima">
                 <input type="text" placeholder="URL da imagem do nível">
                 <textarea placeholder="Descrição do nível"></textarea>
             </div>
@@ -211,7 +211,7 @@ function renderLevelQuizz(){
         `;
     }
 
-    document.querySelector(".creating-quiz-level-container").innerHTML += `<button type="button">Finalizar Quizz</button>`;
+    document.querySelector(".creating-quiz-level-container").innerHTML += `<button onclick="quizzLevel();" type="button">Finalizar Quizz</button>`;
 }
 
 function openingClosedLevel(elemento){
@@ -220,7 +220,7 @@ function openingClosedLevel(elemento){
     elemento.parentNode.classList.remove("creating-quiz-level-closed");
     elemento.parentNode.innerHTML += `                
         <input type="text" placeholder="Título do nível">
-        <input type="text" placeholder="% de acerto mínima">
+        <input type="number" placeholder="% de acerto mínima">
         <input type="text" placeholder="URL da imagem do nível">
         <textarea placeholder="Descrição do nível"></textarea>
     `;
@@ -228,4 +228,41 @@ function openingClosedLevel(elemento){
 
 function quizzLevel(){
 
+    if( Number(numberLevel) === (document.querySelectorAll(".creating-quiz-level").length)){
+        const arrayInput = document.querySelectorAll(".creating-quiz-level input");
+        const arrayTextArea = document.querySelectorAll(".creating-quiz-level textarea");
+
+        let counter=0, counterTrue=0;
+        for(let i=0; i<Number(numberLevel); i++){
+            if(checksLevelAnswer(arrayInput[counter].value, arrayInput[counter+1].value, arrayInput[counter+2].value, arrayTextArea[i].value)) counterTrue++;
+            counter += 3;
+        }
+
+        if(counterTrue === Number(numberLevel)){
+            if(checkAmountOfLevelZero(arrayInput)) alert("passou papai");
+            else {
+                alert("Preencha os dados novamente!");
+                renderLevelQuizz();
+            }
+        }else{
+            alert("Preencha os dados novamente!");
+            renderLevelQuizz();
+        }
+    }
+}
+
+function checksLevelAnswer(string1, string2, string3, string4){
+
+    if(string1.length > 9 && (string2 >= 0 && string2 <= 100) && (validURL(string3)) && string4.length > 29) return true;
+    else return false;
+}
+
+function checkAmountOfLevelZero(array){
+    let counter=1, counterZero=0;
+    for(let i=0; i<Number(numberLevel); i++){
+        if(Number(array[counter].value) === 0) counterZero++;
+        counter += 3;
+    }
+    if(counterZero > 0) return true;
+    else return false;
 }
