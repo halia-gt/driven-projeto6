@@ -19,7 +19,7 @@ function displayScreen1() {
         <section class="your-quizzes-container">
             <div class="no-quiz">
                 <p>Você não criou nenhum quizz ainda :(</p>
-                <button type="button">Criar Quizz</button>
+                <button type="button" onclick="renderCreationQuizz();">Criar Quizz</button>
             </div>
             <div class="your-quizzes hidden">
                 <h3 class="title">Seus Quizzes</h3>
@@ -50,7 +50,8 @@ function renderQuizzes() {
         `;
         quizList.innerHTML += quizTemplate;
     }
+
 }
 
-displayScreen1();
-getQuizzes();
+// displayScreen1();
+// getQuizzes();
