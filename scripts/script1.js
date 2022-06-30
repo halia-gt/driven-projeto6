@@ -1,7 +1,7 @@
 
 let numberQuestions, numberLevel;
 
-const layoutCreationQuizz = `
+const creationQuizzLayout = `
     <div class="creating-quiz-question-title">
     <input type="text" placeholder="Texto da pergunta">
     <input type="text" placeholder="Cor de fundo da pergunta">
@@ -59,7 +59,7 @@ function basicInformation(){
 }
 
 function checksBasicInformation(title, url, qttQuestions, qttLevel){
-    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) return renderQuizzQuestions(qttQuestions);
+    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) renderLevelQuizz();//renderQuizzQuestions();
     else{
         alert("Preencha novamente os dados!");
         renderQuizzCreation();
@@ -75,11 +75,11 @@ function validURL(string){
       return true;
 }
 
-function renderQuizzQuestions(qttQuestions){
+function renderQuizzQuestions(){
 
-    const buttonQuestionQuizz = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>`;
+    const quizzQuestionButton = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>`;
     
-    const layoutQuestionsQuizz = `
+    const quizzQuestionLayout = `
         <section class="creating-quiz-questions-container banner">
             <h3 class="title">Crie suas perguntas</h3>
             <div class="creating-quiz-question">
@@ -87,11 +87,11 @@ function renderQuizzQuestions(qttQuestions){
             </div>
         </section>
     `;
-    document.querySelector("main").innerHTML = layoutQuestionsQuizz;
+    document.querySelector("main").innerHTML = quizzQuestionLayout;
 
-    for(let i=0; i<qttQuestions; i++){
+    for(let i=0; i<numberQuestions; i++){
         if(i==0){
-            document.querySelector(".creating-quiz-question").innerHTML += layoutCreationQuizz;
+            document.querySelector(".creating-quiz-question").innerHTML += creationQuizzLayout;
         }else{
             document.querySelector(".creating-quiz-questions-container").innerHTML += `
                 <div class="creating-quiz-question-closed">
@@ -102,14 +102,14 @@ function renderQuizzQuestions(qttQuestions){
         }
     } 
 
-    document.querySelector(".creating-quiz-questions-container").innerHTML += buttonQuestionQuizz;
+    document.querySelector(".creating-quiz-questions-container").innerHTML += quizzQuestionButton;
 }
 
 function openingClosedQuestion(elemento){
     elemento.classList.add("hidden");
     elemento.parentNode.classList.add("creating-quiz-question");
     elemento.parentNode.classList.remove("creating-quiz-question-closed");
-    elemento.parentNode.innerHTML += layoutCreationQuizz;
+    elemento.parentNode.innerHTML += creationQuizzLayout;
 
 }
 
@@ -206,12 +206,24 @@ function renderLevelQuizz(){
         document.querySelector(".creating-quiz-level-container").innerHTML += `
             <div class="creating-quiz-level-closed">
             <h3 class="title">Nível ${i+1}</h3>
-            <img src="./images/create-outline.png">
+            <img onclick="openingClosedLevel(this);" src="./images/create-outline.png">
             </div>
         `;
     }
 
     document.querySelector(".creating-quiz-level-container").innerHTML += `<button type="button">Finalizar Quizz</button>`;
+}
+
+function openingClosedLevel(elemento){
+    elemento.classList.add("hidden");
+    elemento.parentNode.classList.add("creating-quiz-level");
+    elemento.parentNode.classList.remove("creating-quiz-level-closed");
+    elemento.parentNode.innerHTML += `                
+        <input type="text" placeholder="Título do nível">
+        <input type="text" placeholder="% de acerto mínima">
+        <input type="text" placeholder="URL da imagem do nível">
+        <textarea placeholder="Descrição do nível"></textarea>
+    `;
 }
 
 function quizzLevel(){
