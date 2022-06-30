@@ -42,7 +42,7 @@ function renderQuizzes() {
     for (let i = 0 ; i < allQuizArray.length ; i++) {
         const quiz = allQuizArray[i];
         let quizTemplate = `
-            <div class="quiz" onclick="renderSingleQuiz(this);>
+            <div class="quiz" onclick="renderSingleQuiz(this);" id="${quiz.id}">
                 <img src="${quiz.image}">
                 <div class="quiz-gradient"></div>
                 <p>${quiz.title}</p>

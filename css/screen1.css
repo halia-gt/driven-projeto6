@@ -85,7 +85,7 @@
         justify-content: space-between;
     }
 
-    .quiz img {
+    .quiz-list .quiz img {
         width: 340px;
     }
 }
