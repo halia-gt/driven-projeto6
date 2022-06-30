@@ -133,15 +133,39 @@ function quizzQuestions(){
 }
 
 function filterAnswer(array, counter){
-    let i, arrayAux = [], checkTrue=0;
+    let i, arrayAux = [], checkTrue=[];
     if(counter === 3) i = 0;
     else i = counter - 3;
     for(let j=i; j<counter; j++){
         arrayAux.push(array[j]);
     }
-    for(let i=0; i<arrayAux.length; i++) if(checksAnswer(arrayAux[i].children[0].value, arrayAux[i].children[1].value)) checkTrue++; 
+    for(let i=0; i<arrayAux.length; i++) {
+        if((arrayAux[i].children[0].value) === "" && (arrayAux[i].children[1].value) === "") checkTrue.push(0);
+        else {
+            if(checksAnswer(arrayAux[i].children[0].value, arrayAux[i].children[1].value)) checkTrue.push(1);
+            else checkTrue.push(2);
+        }
+    }
     
-    if(checkTrue > 0) return true;
+    if(checksArrayAnswer(checkTrue)) return true;
+    else return false;
+}
+
+function checksArrayAnswer(array){
+    let checks = true, counterZero=0, counterOne=0, i=0;
+
+    while(i<array.length){
+        if(array[i] === 2){
+            checks = false;
+            break;
+        }else{
+            if(array[i] === 0) counterZero++;
+            if(array[i] === 1) counterOne++;
+        }
+        i++;
+    }
+
+    if((counterZero!=3 && counterOne > 0 && (counterOne+counterZero) === 3) && checks === true) return true;
     else return false;
 }
 
