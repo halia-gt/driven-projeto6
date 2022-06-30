@@ -110,24 +110,46 @@ function openingClosedQuestion(elemento){
     elemento.parentNode.classList.remove("creating-quiz-question-closed");
     elemento.parentNode.innerHTML += layoutCreationQuizz;
 
-    //console.log(teste[0].children[1].children[0].value);
 }
 
 function quizzQuestions(){ 
 
     let arrayQuestions = document.querySelectorAll(".creating-quiz-question");
     const titleQuestion = document.querySelectorAll(".creating-quiz-question-title");
+    const correctAnswer = document.querySelectorAll(".creating-quiz-question-correct");
+    const incorrectAnswer = document.querySelectorAll(".creating-quiz-question-incorrect");
+    let counterOfTrueIncorrect=0;
+
     if(arrayQuestions.length === Number(numberQuestions)){
         for(let i=0; i<arrayQuestions.length; i++){
             console.log(checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[1].value));
+            console.log(checksAnswer(correctAnswer[i].children[0].value, correctAnswer[i].children[1].value));
+            if(filterAnswer(incorrectAnswer, i*3)) counterOfTrueIncorrect++;
         }
+        console.log(counterOfTrueIncorrect);
     }
-    //checkHex(document.querySelector(".creating-quiz-question-title").children[1].value);
+}
+
+function filterAnswer(array, counter){
+    let i, arrayAux = [], checkTrue=0;
+    if(counter === 3) i = 0;
+    else i = counter - 3;
+    for(let j=i; j<counter; j++){
+        arrayAux.push(array[j]);
+    }
+    for(let i=0; i<arrayAux.length; i++) if(checksAnswer(arrayAux[i].children[0].value, arrayAux[i].children[1].value)) checkTrue++; 
+    
+    if(checkTrue > 0) return true;
+    else return false;
 }
 
 function checksTitleQuestion(string1, string2){
-    console.log(string1, string2);
     if((string1.length >= 20) && (checkHex(string2))) return true;
+    else return false;
+}
+
+function checksAnswer(string1, string2){
+    if((string1.length != 0) && (validURL(string2))) return true;
     else return false;
 }
 
