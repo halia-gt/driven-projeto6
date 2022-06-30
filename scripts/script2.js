@@ -42,7 +42,7 @@ function renderQuizzes() {
     for (let i = 0 ; i < allQuizArray.length ; i++) {
         const quiz = allQuizArray[i];
         let quizTemplate = `
-            <div class="quiz">
+            <div class="quiz" onclick="renderSingleQuiz(this);>
                 <img src="${quiz.image}">
                 <div class="quiz-gradient"></div>
                 <p>${quiz.title}</p>
@@ -50,7 +50,11 @@ function renderQuizzes() {
         `;
         quizList.innerHTML += quizTemplate;
     }
+}
 
+function renderSingleQuiz(element) {
+    const main = document.querySelector('main');
+    main.innerHTML = '';
 }
 
 // displayScreen1();
