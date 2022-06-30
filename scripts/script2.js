@@ -1,9 +1,10 @@
 //Javascript da LISTAGEM DE QUIZ
 
 let allQuizArray = [];
+let quiz = {};
 
 function getQuizzes() {
-    const promise = axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes');
+    const promise = axios.get('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes');
     promise.then(populateArray);
 }
 
@@ -54,16 +55,14 @@ function renderAllQuizzes() {
 
 function getQuiz(element) {
     const id = element.id;
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${id}`);
-    promise.then(function (answer) {
-        renderQuizBanner(answer, id)
-    });
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${id}`);
+    promise.then(renderQuizBanner);
 }
 
-function renderQuizBanner(answer, id) {
+function renderQuizBanner(answer) {
     const main = document.querySelector('main');
     main.innerHTML = '';
-    const quiz = answer.data;
+    quiz = answer.data;
 
     const bannerTemplate = `
         <section class="quiz-header banner">
@@ -73,10 +72,10 @@ function renderQuizBanner(answer, id) {
         </section>
     `
     main.innerHTML += bannerTemplate;
-    renderQuizQuestions(main, quiz);
+    renderQuizQuestions(main);
 }
 
-function renderQuizQuestions(main, quiz) {
+function renderQuizQuestions(main) {
     const numberQuestions = quiz.questions.length;
 
     for (let i = 0 ; i < numberQuestions ; i++) {
@@ -93,20 +92,21 @@ function renderQuizQuestions(main, quiz) {
         main.innerHTML += questionTemplate;
         const thisQuestion = main.querySelector('.quiz-question-container:last-child');
         thisQuestion.querySelector('.quiz-question').style.backgroundColor = question.color;
-        displayQuestionOptions(question.answers, thisQuestion);
+        displayQuestionOptions(question.answers, thisQuestion, i);
     }
 }
 
-function displayQuestionOptions(array, question) {
+function displayQuestionOptions(array, question, i) {
     const answers = array;
     const options = question.querySelector('.quiz-options');
     answers.sort(sortArray);
+    quiz.questions[i].answers = answers;
 
     options.innerHTML = '';
     for (let i = 0 ; i < answers.length ; i++) {
         const answer = answers[i];
         const optionTemplate = `
-            <div class="quiz-option" onclick="selectOption(this, ${answer.isCorrectAnswer})">
+            <div class="quiz-option" onclick="selectOption(this)">
                 <img src="${answer.image}">
                 <p>${answer.text}</p>
             </div>
@@ -115,13 +115,37 @@ function displayQuestionOptions(array, question) {
     }
 }
 
+function selectOption(element) {
+    const allOptions = element.parentNode.querySelectorAll('.quiz-option');
+   
+    allOptions.forEach( function (option) {
+        addOpacity(option, element);
+        removeClick(option);
+        addColorText(option);
+    });
+}
+
+function addOpacity (option, element) {
+    if (option !== element) {
+        option.classList.add('opacity');
+    }
+}
+
+function removeClick(option) {
+    option.removeAttribute('onclick');
+}
+
+function addColorText(option) {
+    const p = option.querySelector('p');
+}
+
 function sortArray() { 
 	return Math.random() - 0.5; 
 }
 
-function selectOption(element, choice) {
-// Adicionar efeito na selecionada (element) e nas não-selecionadas (efeito de opacity) e adicionar cor
+function renderStartPage() {
+    displayScreen1();
+    getQuizzes();
 }
 
-displayScreen1();
-getQuizzes();
+renderStartPage();
