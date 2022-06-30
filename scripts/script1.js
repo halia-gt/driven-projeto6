@@ -1,5 +1,5 @@
 
-let numberQuestions;
+let numberQuestions, numberLevel;
 
 const layoutCreationQuizz = `
     <div class="creating-quiz-question-title">
@@ -53,6 +53,7 @@ function basicInformation(){
     const qttLevel = dom.children[3].value;
 
     numberQuestions = qttQuestions;
+    numberLevel = qttLevel;
     checksBasicInformation(title, url, qttQuestions, qttLevel);
     
 }
@@ -198,11 +199,21 @@ function renderLevelQuizz(){
                 <input type="text" placeholder="URL da imagem do nível">
                 <textarea placeholder="Descrição do nível"></textarea>
             </div>
-            <div class="creating-quiz-level-closed">
-                <h3 class="title">Nível 2</h3>
-                <img src="./images/create-outline.png">
-            </div>
-            <button type="button">Finalizar Quizz</button>
         </section>
     `;
+
+    for(let i=1; i<numberLevel; i++){
+        document.querySelector(".creating-quiz-level-container").innerHTML += `
+            <div class="creating-quiz-level-closed">
+            <h3 class="title">Nível ${i+1}</h3>
+            <img src="./images/create-outline.png">
+            </div>
+        `;
+    }
+
+    document.querySelector(".creating-quiz-level-container").innerHTML += `<button type="button">Finalizar Quizz</button>`;
+}
+
+function quizzLevel(){
+
 }
