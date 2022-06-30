@@ -57,5 +57,5 @@ function renderSingleQuiz(element) {
     main.innerHTML = '';
 }
 
-// displayScreen1();
-// getQuizzes();
+ displayScreen1();
+ getQuizzes();
