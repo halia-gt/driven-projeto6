@@ -26,7 +26,7 @@ const layoutCreationQuizz = `
     </div>
 `;
 
-function renderCreationQuizz(){
+function renderQuizzCreation(){
 
     const layoutBasicInformation = `
         <section class="creating-quiz-basic-container banner">
@@ -58,10 +58,10 @@ function basicInformation(){
 }
 
 function checksBasicInformation(title, url, qttQuestions, qttLevel){
-    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) return renderQuestionsQuizz(qttQuestions);
+    if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) return renderQuizzQuestions(qttQuestions);
     else{
         alert("Preencha novamente os dados!");
-        renderCreationQuizz();
+        renderQuizzCreation();
     }
 }
 
@@ -74,7 +74,7 @@ function validURL(string){
       return true;
 }
 
-function renderQuestionsQuizz(qttQuestions){
+function renderQuizzQuestions(qttQuestions){
 
     const buttonQuestionQuizz = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>`;
     
@@ -118,15 +118,17 @@ function quizzQuestions(){
     const titleQuestion = document.querySelectorAll(".creating-quiz-question-title");
     const correctAnswer = document.querySelectorAll(".creating-quiz-question-correct");
     const incorrectAnswer = document.querySelectorAll(".creating-quiz-question-incorrect");
-    let counterOfTrueIncorrect=0;
+    let counterTrue = 0;
 
     if(arrayQuestions.length === Number(numberQuestions)){
         for(let i=0; i<arrayQuestions.length; i++){
-            console.log(checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[1].value));
-            console.log(checksAnswer(correctAnswer[i].children[0].value, correctAnswer[i].children[1].value));
-            if(filterAnswer(incorrectAnswer, i*3)) counterOfTrueIncorrect++;
+            if((checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[1].value)) && (checksAnswer(correctAnswer[i].children[0].value, correctAnswer[i].children[1].value)) && (filterAnswer(incorrectAnswer, (i+1)*3))) counterTrue++;
         }
-        console.log(counterOfTrueIncorrect);
+        if(counterTrue === 3) renderLevelQuizz();
+        else {
+            alert("Preencha os dados novamente!");
+            renderQuizzQuestions(numberQuestions);
+        }
     }
 }
 
@@ -158,4 +160,25 @@ function checkHex(string){
     let comparator = /^#[0-9A-F]{6}$/i;
     if(comparator.test(string)) return true;
     else return false;
+}
+
+function renderLevelQuizz(){
+
+    document.querySelector("main").innerHTML = `
+        <section class="creating-quiz-level-container banner">
+            <h3 class="title">Agora, decida os níveis!</h3>
+            <div class="creating-quiz-level">
+                <h3>Nível 1</h3>
+                <input type="text" placeholder="Título do nível">
+                <input type="text" placeholder="% de acerto mínima">
+                <input type="text" placeholder="URL da imagem do nível">
+                <textarea placeholder="Descrição do nível"></textarea>
+            </div>
+            <div class="creating-quiz-level-closed">
+                <h3 class="title">Nível 2</h3>
+                <img src="./images/create-outline.png">
+            </div>
+            <button type="button">Finalizar Quizz</button>
+        </section>
+    `;
 }
