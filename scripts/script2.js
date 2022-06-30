@@ -9,7 +9,7 @@ function getQuizzes() {
 
 function populateArray(answer) {
     allQuizArray = answer.data;
-    renderQuizzes();
+    renderAllQuizzes();
 }
 
 // Fazer um if do que vai pro innerHTML baseado se tem ou não Seu Quiz (no momento ta só com um display: hidden)
@@ -35,7 +35,7 @@ function displayScreen1() {
     `;
 }
 
-function renderQuizzes() {
+function renderAllQuizzes() {
     const quizList = document.querySelector('.all-quizzes .quiz-list');
     quizList.innerHTML = ``;
 
