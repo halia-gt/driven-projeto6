@@ -33,6 +33,8 @@ function displayScreen1() {
             <div class="quiz-list">
             </div>
         </section>
+        <section class="quiz-result-container banner">
+        </section>
     `;
 }
 
@@ -117,7 +119,7 @@ function displayQuestionOptions(array, question, j) {
 
 function selectOption(element, questionNumber) {
     const allOptions = element.parentNode.querySelectorAll('.quiz-option');
-    const nextQuestion = element.parentNode.parentNode.nextSibling;
+    const nextQuestion = element.parentNode.parentNode.nextElementSibling;
     
     let i = 0;
     allOptions.forEach( function (option) {
@@ -126,6 +128,16 @@ function selectOption(element, questionNumber) {
         addColorText(option, questionNumber, i);
         i++;
     });
+
+    if (nextQuestion !== null) {
+        setTimeout( function () {
+            nextQuestion.scrollIntoView({
+                behavior: 'auto',
+                block: 'center',
+                inline: 'center'
+            });
+        }, 2000);
+    }
 }
 
 function addOpacity (option, element) {
