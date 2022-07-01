@@ -85,6 +85,9 @@
 .quiz-result img {
     width: 100%;
     margin-bottom: 0.7em;
+    min-height: 255px;
+    max-height: 273px;
+    object-fit: cover;
 }
 
 .quiz-result p {
@@ -128,4 +131,16 @@
 
 .right-choice {
     color: #009C22;
+}
+
+@media (min-width: 760px) {
+    .quiz-result {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .quiz-result p {
+        margin-left: 0.7em;
+    }
 }

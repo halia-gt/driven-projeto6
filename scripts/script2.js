@@ -202,7 +202,7 @@ function interval(result) {
         }
     }
 
-    displayAnswer(control, levelIndex);
+    displayAnswer(result, levelIndex);
 }
 
 function displayAnswer(percentage, i) {
@@ -220,9 +220,12 @@ function displayAnswer(percentage, i) {
         </section>
         <section class="button">
             <button class="restart-quiz">Reiniciar Quizz</button>
-            <p>Voltar pra home</p>
+            <p onclick="renderStartPage();">Voltar pra home</p>
         </section>
     `
+    setTimeout( function () {
+        document.querySelector('.quiz-result-container').scrollIntoView();
+    }, 2000);
 }
 
 function renderStartPage() {
