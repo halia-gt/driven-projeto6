@@ -1,5 +1,5 @@
 
-let numberQuestions, numberLevel, imgUrl, quizzTitle;
+let numberQuestions, numberLevel, imgUrl, quizzTitle, data;
 let arrayQuestionsObj = [];
 let arrayLevelObj = [];
 
@@ -380,12 +380,17 @@ function sendLocalStorage(msg){
     
     const dadosSerializados = JSON.stringify(quizObject);
     localStorage.setItem(userQuizz.id, dadosSerializados);
-
-    //console.log(localStorage.getItem("user")); 
+    
+    data = msg.data;
+    renderSuccessScreen();
 }
 
 function errorSendAPI(error){
     console.log(error);
+}
+
+function renderYourQuizz(){
+    getQuiz(data);
 }
 
 function renderSuccessScreen(){
@@ -400,7 +405,7 @@ function renderSuccessScreen(){
     </div>
     </section>
     <section class="button">
-        <button class="acess-quiz">Acessar Quizz</button>
+        <button class="acess-quiz" onclick="renderYourQuizz();">Acessar Quizz</button>
         <p onclick="renderStartPage();">Voltar pra home</p>
     </section>
     `;

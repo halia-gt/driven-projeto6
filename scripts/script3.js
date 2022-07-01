@@ -42,7 +42,7 @@ function renderAllQuizzes() {
     userQuizz.innerHTML = "";
     quizList.innerHTML = ``;
 
-    const checksYourQuizz = false;
+    let checksYourQuizz = false;
 
     for (let i = 0 ; i < allQuizArray.length ; i++) {
         const quiz = allQuizArray[i];
