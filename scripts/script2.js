@@ -2,6 +2,8 @@
 
 let allQuizArray = [];
 let quiz = {};
+let answeredQuestions = 0;
+let rightAnswers = 0;
 
 function getQuizzes() {
     const promise = axios.get('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes');
@@ -32,8 +34,6 @@ function displayScreen1() {
             <h3 class="title">Todos os Quizzes</h3>
             <div class="quiz-list">
             </div>
-        </section>
-        <section class="quiz-result-container banner">
         </section>
     `;
 }
@@ -108,7 +108,7 @@ function displayQuestionOptions(array, question, j) {
     for (let i = 0 ; i < answers.length ; i++) {
         const answer = answers[i];
         const optionTemplate = `
-            <div class="quiz-option" onclick="selectOption(this, ${j})">
+            <div class="quiz-option" onclick="selectOption(this, ${j}, ${i})">
                 <img src="${answer.image}">
                 <p>${answer.text}</p>
             </div>
@@ -117,9 +117,14 @@ function displayQuestionOptions(array, question, j) {
     }
 }
 
-function selectOption(element, questionNumber) {
+function selectOption(element, questionNumber, answerNumber) {
     const allOptions = element.parentNode.querySelectorAll('.quiz-option');
     const nextQuestion = element.parentNode.parentNode.nextElementSibling;
+    answeredQuestions++;
+
+    if (isCorrect(questionNumber, answerNumber) === true) {
+        rightAnswers++;
+    }
     
     let i = 0;
     allOptions.forEach( function (option) {
@@ -128,6 +133,12 @@ function selectOption(element, questionNumber) {
         addColorText(option, questionNumber, i);
         i++;
     });
+
+    // Perguntar aqui se é a última resposta dada, fazer os cálculos se for, e apresentar os resultados
+    if (isAllAnswered() === true) {
+        calcAnswer();
+        answeredQuestions = 0;
+    }
 
     if (nextQuestion !== null) {
         setTimeout( function () {
@@ -152,17 +163,66 @@ function removeClick(option) {
 
 function addColorText(option, questionNumber, answerNumber) {
     const p = option.querySelector('p');
-    const isCorrect = quiz.questions[questionNumber].answers[answerNumber].isCorrectAnswer;
 
-    if (isCorrect === true) {
+    if (isCorrect(questionNumber, answerNumber) === true) {
         p.classList.add('right-choice');
     } else {
         p.classList.add('wrong-choice');
     }
 }
 
+function isCorrect(questionNumber, answerNumber) {
+    return quiz.questions[questionNumber].answers[answerNumber].isCorrectAnswer;
+}
+
 function sortArray() { 
 	return Math.random() - 0.5; 
+}
+
+function isAllAnswered() {
+    if (answeredQuestions === quiz.questions.length) {
+        return true;
+    }
+}
+
+function calcAnswer() {
+    const result = Math.round(rightAnswers*100/(quiz.questions.length));
+    interval(result);
+}
+
+function interval(result) {
+    let control = 0;
+    let levelIndex = 0;
+
+    for (let i = 0 ; i < quiz.levels.length ; i ++) {
+        const level = quiz.levels[i].minValue;
+        if (result >= level && level >= control) {
+            control = level;
+            levelIndex = i;
+        }
+    }
+
+    displayAnswer(control, levelIndex);
+}
+
+function displayAnswer(percentage, i) {
+    const level = quiz.levels[i];
+    const main = document.querySelector('main');
+    main.innerHTML += `
+        <section class="quiz-result-container banner">
+            <div class="quiz-result-level">
+                <p>${percentage}% de acerto: ${level.title}</p>
+            </div>
+            <div class="quiz-result">
+                <img src="${level.image}">
+                <p>${level.text}</p>
+            </div>
+        </section>
+        <section class="button">
+            <button class="restart-quiz">Reiniciar Quizz</button>
+            <p>Voltar pra home</p>
+        </section>
+    `
 }
 
 function renderStartPage() {
