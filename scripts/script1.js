@@ -146,7 +146,7 @@ function quizzQuestions(){
                 });
             }
         }
-        if(counterTrue === 3) renderLevelQuizz();
+        if(counterTrue === Number(numberQuestions)) renderLevelQuizz();
         else {
             alert("Preencha os dados novamente!");
             renderQuizzQuestions(numberQuestions);
@@ -362,6 +362,7 @@ function sendQuizzAPI(){
     
     promise.then(renderSuccessScreen);
     promise.catch(errorSendAPI);
+
 }
 
 function errorSendAPI(error){
