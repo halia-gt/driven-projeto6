@@ -43,6 +43,12 @@ function renderQuizQuestions(main) {
         thisQuestion.querySelector('.quiz-question').style.backgroundColor = question.color;
         displayQuestionOptions(question.answers, thisQuestion, i);
     }
+    const banner = document.querySelector('.quiz-header');
+    banner.scrollIntoView({
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center'
+    });
 }
 
 function displayQuestionOptions(array, question, j) {
