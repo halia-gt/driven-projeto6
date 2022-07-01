@@ -10,7 +10,6 @@ function populateArray(answer) {
     renderAllQuizzes();
 }
 
-// Fazer um if do que vai pro innerHTML baseado se tem ou não Seu Quiz (no momento ta só com um display: hidden)
 function displayScreen1() {
     const main = document.querySelector('main');
     main.innerHTML = `
@@ -38,6 +37,9 @@ function displayScreen1() {
 
 function renderAllQuizzes() {
     const quizList = document.querySelector('.all-quizzes .quiz-list');
+    const userQuizz = document.querySelector(".your-quizzes .quiz-list");
+
+    userQuizz.innerHTML = "";
     quizList.innerHTML = ``;
 
     for (let i = 0 ; i < allQuizArray.length ; i++) {
@@ -49,8 +51,22 @@ function renderAllQuizzes() {
                 <p>${quiz.title}</p>
             </div>
         `;
-        quizList.innerHTML += quizTemplate;
+
+        if(checksLocalStorage(quiz.id)) {
+            userQuizz.innerHTML += quizTemplate;
+            document.querySelector(".no-quiz").classList.add("hidden");
+        }
+        else quizList.innerHTML += quizTemplate;
     }
+}
+
+function checksLocalStorage(id){
+
+    const listaSerializada = localStorage.getItem(id);
+    const lista = JSON.parse(listaSerializada);
+    
+    if(lista != null) return true;
+    else return false;
 }
 
 function renderStartPage() {

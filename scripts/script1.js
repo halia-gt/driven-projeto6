@@ -369,7 +369,6 @@ function sendQuizzAPI(){
 
 function sendLocalStorage(msg){
     const userQuizz = msg.data;
-    console.log(id);
 
     const quizObject = {
         id: userQuizz.id,
@@ -380,9 +379,9 @@ function sendLocalStorage(msg){
     }
     
     const dadosSerializados = JSON.stringify(quizObject);
-    localStorage.setItem( "user" , dadosSerializados);
+    localStorage.setItem(userQuizz.id, dadosSerializados);
 
-    console.log(localStorage.getItem("user")); 
+    //console.log(localStorage.getItem("user")); 
 }
 
 function errorSendAPI(error){
