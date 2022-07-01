@@ -49,6 +49,7 @@
     padding-top: 16px;
     color: #EC362D;
     font-size: 40px;
+    cursor: pointer;
 }
 
 .your-quizzes-container h3, .all-quizzes h3 {
