@@ -1,5 +1,7 @@
 
 let numberQuestions, numberLevel, imgUrl, quizzTitle;
+let arrayQuestionsObj = [];
+let arrayLevelObj = [];
 
 const creationQuizzLayout = `
     <div class="creating-quiz-question-title">
@@ -117,6 +119,7 @@ function openingClosedQuestion(elemento){
 
 function quizzQuestions(){ 
 
+    arrayQuestionsObj = [];
     let arrayQuestions = document.querySelectorAll(".creating-quiz-question");
     const titleQuestion = document.querySelectorAll(".creating-quiz-question-title");
     const correctAnswer = document.querySelectorAll(".creating-quiz-question-correct");
@@ -125,7 +128,14 @@ function quizzQuestions(){
 
     if(arrayQuestions.length === Number(numberQuestions)){
         for(let i=0; i<arrayQuestions.length; i++){
-            if((checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[1].value)) && (checksAnswer(correctAnswer[i].children[0].value, correctAnswer[i].children[1].value)) && (filterAnswer(incorrectAnswer, (i+1)*3))) counterTrue++;
+            if((checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[1].value)) && (checksAnswer(correctAnswer[i].children[0].value, correctAnswer[i].children[1].value)) && (filterAnswer(incorrectAnswer, (i+1)*3))) {
+                counterTrue++;
+                arrayQuestionsObj.push({
+                    title: titleQuestion[i].children[0].value,
+                    color: titleQuestion[i].children[1].value,
+                    answer: createAnswerObjects(createAnswerArray(correctAnswer, incorrectAnswer, i))
+                });
+            }
         }
         if(counterTrue === 3) renderLevelQuizz();
         else {
@@ -135,13 +145,64 @@ function quizzQuestions(){
     }
 }
 
-function filterAnswer(array, counter){
-    let i, arrayAux = [], checkTrue=[];
-    if(counter === 3) i = 0;
-    else i = counter - 3;
-    for(let j=i; j<counter; j++){
+function createAnswerObjects(array){
+    let arrayOfObjects=[], counter=0;
+
+    for(let i=0; i<(array.length)/2; i++){
+        if(i==0){
+            arrayOfObjects.push({
+                text: array[counter],
+                image: array[counter+1],
+                isCorrectAnswer: true
+            });
+        }else{
+            arrayOfObjects.push({
+                text: array[counter],
+                image: array[counter+1],
+                isCorrectAnswer: false
+            });
+        }
+        counter += 2;
+    }
+    return arrayOfObjects;
+}
+
+function createAnswerArray(arrayCorrect, arrayIncorrect, index){
+    let array, newArray, tempArray=[];
+
+    tempArray.push(arrayCorrect[index].children[0].value);
+    tempArray.push(arrayCorrect[index].children[1].value);
+    array = createIncorrect(arrayIncorrect, (index+1)*3);
+    newArray = tempArray.concat(array);
+    return newArray;
+}
+
+function createIncorrect(array, index){
+    let arrayAux, newArray=[], counter=0;
+    arrayAux = renderArrayIncorrect(array, index);
+    for(let i=0; i<arrayAux.length; i++){
+        if(arrayAux[i].children[0].value != "" && arrayAux[i].children[1].value != ""){
+            newArray[counter] = arrayAux[i].children[0].value;
+            newArray[counter+1] = arrayAux[i].children[1].value;
+            counter += 2;
+        }
+    }
+    return newArray;
+}
+
+function renderArrayIncorrect(array, index){
+    let i, arrayAux=[];
+    if(index === 3) i = 0;
+    else i = index - 3;
+    for(let j=i; j<index; j++){
         arrayAux.push(array[j]);
     }
+    return arrayAux;
+}
+
+function filterAnswer(array, counter){
+    let checkTrue=[], arrayAux;
+    arrayAux = renderArrayIncorrect(array, counter);
     for(let i=0; i<arrayAux.length; i++) {
         if((arrayAux[i].children[0].value) === "" && (arrayAux[i].children[1].value) === "") checkTrue.push(0);
         else {
@@ -229,14 +290,22 @@ function openingClosedLevel(elemento){
 }
 
 function quizzLevel(){
-
+    arrayLevelObj = [];
     if( Number(numberLevel) === (document.querySelectorAll(".creating-quiz-level").length)){
         const arrayInput = document.querySelectorAll(".creating-quiz-level input");
         const arrayTextArea = document.querySelectorAll(".creating-quiz-level textarea");
 
         let counter=0, counterTrue=0;
         for(let i=0; i<Number(numberLevel); i++){
-            if(checksLevelAnswer(arrayInput[counter].value, arrayInput[counter+1].value, arrayInput[counter+2].value, arrayTextArea[i].value)) counterTrue++;
+            if(checksLevelAnswer(arrayInput[counter].value, arrayInput[counter+1].value, arrayInput[counter+2].value, arrayTextArea[i].value)) {
+                counterTrue++;
+                arrayLevelObj.push({
+                    title: arrayInput[counter].value,
+                    image: arrayInput[counter+2].value,
+                    text: arrayTextArea[i].value,
+                    minValue: Number(arrayInput[counter+1].value)
+                });
+            }
             counter += 3;
         }
 
@@ -270,6 +339,14 @@ function checkAmountOfLevelZero(array){
 }
 
 function renderSuccessScreen(){
+
+    teste = {
+        title: quizzTitle,
+        image: imgUrl,
+        questions: arrayQuestionsObj,
+        levels: arrayLevelObj
+    }
+    console.log(teste);
     document.querySelector("main").innerHTML = `
     <section class="created-quiz-container">
     <h3 class="title">Seu quizz está pronto!</h3>
@@ -281,7 +358,7 @@ function renderSuccessScreen(){
     </section>
     <section class="button">
         <button class="acess-quiz">Acessar Quizz</button>
-        <p>Voltar pra home</p>
+        <p onclick="renderStartPage();">Voltar pra home</p>
     </section>
     `;
 }
