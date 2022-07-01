@@ -43,8 +43,13 @@ function renderQuizzCreation(){
         </section>
     `;
 
-    document.querySelector("main").innerHTML = layoutBasicInformation;
+    document.querySelector("main").innerHTML = layoutBasicInformation
+    setTimeout(function(){
+        alert("Requisitos:\n-Título do quizz: deve ter no mínimo 20 e no máximo 65 caracteres\n-A URL da Imagem deve ser uma URL válida\n-Mínimo de perguntas: 3\n-Mínimo de níveis: 2");
+    }, 300);
 }
+
+
 
 function basicInformation(){
     
@@ -107,6 +112,10 @@ function renderQuizzQuestions(){
     } 
 
     document.querySelector(".creating-quiz-questions-container").innerHTML += quizzQuestionButton;
+
+    setTimeout(function(){
+        alert("Requisitos:\n-Texto da pergunta: no mínimo 20 caracteres\n-Cor de fundo: deve ser uma cor em hexadecimal (começar com #)\n-Textos das respostas: não pode estar vazio\n-A URL das imagens de resposta deve ser uma URL válida\n-Deve ter no mínimo uma pergunta incorreta, caso não queira mais respostas incorretas não preencher o campo da resposta");
+    }, 300);
 }
 
 function openingClosedQuestion(elemento){
@@ -133,7 +142,7 @@ function quizzQuestions(){
                 arrayQuestionsObj.push({
                     title: titleQuestion[i].children[0].value,
                     color: titleQuestion[i].children[1].value,
-                    answer: createAnswerObjects(createAnswerArray(correctAnswer, incorrectAnswer, i))
+                    answers: createAnswerObjects(createAnswerArray(correctAnswer, incorrectAnswer, i))
                 });
             }
         }
@@ -275,6 +284,10 @@ function renderLevelQuizz(){
     }
 
     document.querySelector(".creating-quiz-level-container").innerHTML += `<button onclick="quizzLevel();" type="button">Finalizar Quizz</button>`;
+
+    setTimeout(function(){
+        alert("Requisitos:\n-Título do nível: mínimo de 10 caracteres\n-% de acerto mínima: um número entre 0 e 100\n-A URL da imagem do nível deve ser uma URL válida\n-Descrição do nível: mínimo de 30 caracteres\n-É obrigatório existir pelo menos 1 nível cuja % de acerto mínima seja 0%");
+    }, 300);
 }
 
 function openingClosedLevel(elemento){
@@ -310,7 +323,7 @@ function quizzLevel(){
         }
 
         if(counterTrue === Number(numberLevel)){
-            if(checkAmountOfLevelZero(arrayInput)) renderSuccessScreen();
+            if(checkAmountOfLevelZero(arrayInput)) sendQuizzAPI();
             else {
                 alert("Preencha os dados novamente!");
                 renderLevelQuizz();
@@ -338,15 +351,25 @@ function checkAmountOfLevelZero(array){
     else return false;
 }
 
-function renderSuccessScreen(){
+function sendQuizzAPI(){
 
-    teste = {
+    const promise = axios.post('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes', {
         title: quizzTitle,
         image: imgUrl,
         questions: arrayQuestionsObj,
         levels: arrayLevelObj
-    }
-    console.log(teste);
+    });  
+    
+    promise.then(renderSuccessScreen);
+    promise.catch(errorSendAPI);
+}
+
+function errorSendAPI(error){
+    console.log(error);
+}
+
+function renderSuccessScreen(){
+
     document.querySelector("main").innerHTML = `
     <section class="created-quiz-container">
     <h3 class="title">Seu quizz está pronto!</h3>
