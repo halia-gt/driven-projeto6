@@ -94,6 +94,7 @@
     color: #484848;
     font-weight: 700;
     font-size: 17px;
+    line-break: anywhere;
 }
 
 .button {
