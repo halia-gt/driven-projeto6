@@ -140,7 +140,12 @@
         justify-content: space-between;
     }
 
+    .quiz-result img {
+        max-width: 60%;
+    }
+
     .quiz-result p {
         margin-left: 0.7em;
+        flex-grow: 1;
     }
 }
