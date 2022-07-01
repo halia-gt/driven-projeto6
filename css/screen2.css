@@ -30,6 +30,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    line-break: anywhere;
 }
 
 .quiz-question-container, .quiz-result-container {
@@ -51,6 +52,7 @@
 
 .quiz-question p {
     font-weight: 700;
+    line-break: anywhere;
 }
 
 .quiz-options {
