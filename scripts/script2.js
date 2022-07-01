@@ -33,6 +33,8 @@ function displayScreen1() {
             <div class="quiz-list">
             </div>
         </section>
+        <section class="quiz-result-container banner">
+        </section>
     `;
 }
 
@@ -96,17 +98,17 @@ function renderQuizQuestions(main) {
     }
 }
 
-function displayQuestionOptions(array, question, i) {
+function displayQuestionOptions(array, question, j) {
     const answers = array;
     const options = question.querySelector('.quiz-options');
     answers.sort(sortArray);
-    quiz.questions[i].answers = answers;
+    quiz.questions[j].answers = answers;
 
     options.innerHTML = '';
     for (let i = 0 ; i < answers.length ; i++) {
         const answer = answers[i];
         const optionTemplate = `
-            <div class="quiz-option" onclick="selectOption(this)">
+            <div class="quiz-option" onclick="selectOption(this, ${j})">
                 <img src="${answer.image}">
                 <p>${answer.text}</p>
             </div>
@@ -115,14 +117,27 @@ function displayQuestionOptions(array, question, i) {
     }
 }
 
-function selectOption(element) {
+function selectOption(element, questionNumber) {
     const allOptions = element.parentNode.querySelectorAll('.quiz-option');
-   
+    const nextQuestion = element.parentNode.parentNode.nextElementSibling;
+    
+    let i = 0;
     allOptions.forEach( function (option) {
         addOpacity(option, element);
         removeClick(option);
-        addColorText(option);
+        addColorText(option, questionNumber, i);
+        i++;
     });
+
+    if (nextQuestion !== null) {
+        setTimeout( function () {
+            nextQuestion.scrollIntoView({
+                behavior: 'auto',
+                block: 'center',
+                inline: 'center'
+            });
+        }, 2000);
+    }
 }
 
 function addOpacity (option, element) {
@@ -135,8 +150,15 @@ function removeClick(option) {
     option.removeAttribute('onclick');
 }
 
-function addColorText(option) {
+function addColorText(option, questionNumber, answerNumber) {
     const p = option.querySelector('p');
+    const isCorrect = quiz.questions[questionNumber].answers[answerNumber].isCorrectAnswer;
+
+    if (isCorrect === true) {
+        p.classList.add('right-choice');
+    } else {
+        p.classList.add('wrong-choice');
+    }
 }
 
 function sortArray() { 
