@@ -42,6 +42,8 @@ function renderAllQuizzes() {
     userQuizz.innerHTML = "";
     quizList.innerHTML = ``;
 
+    const checksYourQuizz = false;
+
     for (let i = 0 ; i < allQuizArray.length ; i++) {
         const quiz = allQuizArray[i];
         let quizTemplate = `
@@ -55,12 +57,13 @@ function renderAllQuizzes() {
         if(checksLocalStorage(quiz.id)) {
             userQuizz.innerHTML += quizTemplate;
             document.querySelector(".no-quiz").classList.add("hidden");
+            checksYourQuizz = true;
         }
         else {
             quizList.innerHTML += quizTemplate;
-            document.querySelector(".your-quizzes-header").classList.add("hidden");
         }
     }
+    if(checksYourQuizz === false) document.querySelector(".your-quizzes-header").classList.add("hidden");
 }
 
 function checksLocalStorage(id){
