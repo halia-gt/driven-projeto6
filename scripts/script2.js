@@ -219,13 +219,26 @@ function displayAnswer(percentage, i) {
             </div>
         </section>
         <section class="button">
-            <button class="restart-quiz">Reiniciar Quizz</button>
+            <button class="restart-quiz" onclick="restartQuiz();">Reiniciar Quizz</button>
             <p onclick="renderStartPage();">Voltar pra home</p>
         </section>
     `
     setTimeout( function () {
         document.querySelector('.quiz-result-container').scrollIntoView();
     }, 2000);
+}
+
+function restartQuiz() {
+    answeredQuestions = 0;
+    rightAnswers = 0;
+    getQuiz(quiz);
+
+    const banner = document.querySelector('.quiz-header');
+    banner.scrollIntoView({
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center'
+    });
 }
 
 function renderStartPage() {
