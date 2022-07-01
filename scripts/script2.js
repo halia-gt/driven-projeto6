@@ -24,8 +24,11 @@ function displayScreen1() {
                 <p>Você não criou nenhum quizz ainda :(</p>
                 <button type="button" onclick="renderQuizzCreation();">Criar Quizz</button>
             </div>
-            <div class="your-quizzes hidden">
-                <h3 class="title">Seus Quizzes</h3>
+            <div class="your-quizzes">
+                <div class="your-quizzes-header">
+                    <h3 class="title">Seus Quizzes</h3>
+                    <ion-icon name="add-circle" onclick="renderQuizzCreation();"></ion-icon>
+                </div>
                 <div class="quiz-list">
                 </div>
             </div>
