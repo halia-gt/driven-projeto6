@@ -353,16 +353,36 @@ function checkAmountOfLevelZero(array){
 
 function sendQuizzAPI(){
 
-    const promise = axios.post('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes', {
+    const quizObject = {
         title: quizzTitle,
         image: imgUrl,
         questions: arrayQuestionsObj,
         levels: arrayLevelObj
-    });  
+    }
     
-    promise.then(renderSuccessScreen);
-    promise.catch(errorSendAPI);
+    const promise = axios.post('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes', quizObject);  
+    
+    promise.then(sendLocalStorage);
+    promise.catch(errorSendAPI); 
 
+}
+
+function sendLocalStorage(msg){
+    const userQuizz = msg.data;
+    console.log(id);
+
+    const quizObject = {
+        id: userQuizz.id,
+        title: userQuizz.title,
+        image: userQuizz.image,
+        questions: userQuizz.questions,
+        levels: userQuizz.levels
+    }
+    
+    const dadosSerializados = JSON.stringify(quizObject);
+    localStorage.setItem( "user" , dadosSerializados);
+
+    console.log(localStorage.getItem("user")); 
 }
 
 function errorSendAPI(error){

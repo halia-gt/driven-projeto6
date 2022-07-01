@@ -24,7 +24,7 @@ function displayScreen1() {
                 <p>Você não criou nenhum quizz ainda :(</p>
                 <button type="button" onclick="renderQuizzCreation();">Criar Quizz</button>
             </div>
-            <div class="your-quizzes hidden">
+            <div class="your-quizzes">
                 <h3 class="title">Seus Quizzes</h3>
                 <div class="quiz-list">
                 </div>
