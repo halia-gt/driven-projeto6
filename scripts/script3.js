@@ -56,7 +56,10 @@ function renderAllQuizzes() {
             userQuizz.innerHTML += quizTemplate;
             document.querySelector(".no-quiz").classList.add("hidden");
         }
-        else quizList.innerHTML += quizTemplate;
+        else {
+            quizList.innerHTML += quizTemplate;
+            document.querySelector(".your-quizzes-header").classList.add("hidden");
+        }
     }
 }
 
