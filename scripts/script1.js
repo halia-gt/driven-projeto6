@@ -35,29 +35,34 @@ function renderQuizzCreation(){
             <h3 class="title">Comece pelo começo</h3>
             <div class="creating-quiz-basic-questions">
                 <input type="text" placeholder="Título do seu quizz">
+                <p></p>
                 <input type="url" placeholder="URL da imagem do seu quizz">
+                <p></p>
                 <input type="number" placeholder="Quantidade de perguntas do quizz">
+                <p></p>
                 <input type="number" placeholder="Quantidade de níveis do quizz">
+                <p></p>
             </div>
             <button type="button" onclick="basicInformation();">Prosseguir pra criar perguntas</button>
         </section>
     `;
 
-    document.querySelector("main").innerHTML = layoutBasicInformation
-    setTimeout(function(){
-        alert("Requisitos:\n-Título do quizz: deve ter no mínimo 20 e no máximo 65 caracteres\n-A URL da Imagem deve ser uma URL válida\n-Mínimo de perguntas: 3\n-Mínimo de níveis: 2");
-    }, 300);
+    document.querySelector("main").innerHTML = layoutBasicInformation;
+    // setTimeout(function(){
+    //     alert("Requisitos:\n-Título do quizz: deve ter no mínimo 20 e no máximo 65 caracteres\n-A URL da Imagem deve ser uma URL válida\n-Mínimo de perguntas: 3\n-Mínimo de níveis: 2");
+    // }, 300);
 }
 
 
 
 function basicInformation(){
-    
     const dom = document.querySelector(".creating-quiz-basic-questions");
+    cleanBasicInfo(dom);
+
     const title = dom.children[0].value;
-    const url = dom.children[1].value;
-    const qttQuestions = dom.children[2].value;
-    const qttLevel = dom.children[3].value;
+    const url = dom.children[2].value;
+    const qttQuestions = dom.children[4].value;
+    const qttLevel = dom.children[6].value;
 
     numberQuestions = qttQuestions;
     numberLevel = qttLevel;
@@ -68,10 +73,29 @@ function basicInformation(){
 }
 
 function checksBasicInformation(title, url, qttQuestions, qttLevel){
+    const dom = document.querySelector(".creating-quiz-basic-questions");
+
     if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) renderQuizzQuestions();
-    else{
-        alert("Preencha novamente os dados!");
-        renderQuizzCreation();
+    else {
+        if (title.length < 20 || title.length > 65) {
+            dom.children[0].classList.add('invalid');
+            dom.children[1].innerHTML = 'Título deve ter no mínimo 20 e no máximo 65 caracteres';
+        }
+
+        if (!(validURL(url))) {
+            dom.children[2].classList.add('invalid');
+            dom.children[3].innerHTML = 'O valor informado não é uma URL válida';
+        }
+
+        if (qttQuestions < 3) {
+            dom.children[4].classList.add('invalid');
+            dom.children[5].innerHTML = 'O quizz deve ter no mínimo 3 perguntas';
+        }
+
+        if (qttLevel < 2) {
+            dom.children[6].classList.add('invalid');
+            dom.children[7].innerHTML = 'O quizz deve ter no mínimo 3 perguntas';
+        }
     }
 }
 
@@ -422,4 +446,15 @@ function showSuccessScreen() {
     createdQuizContainer.classList.remove('hidden');
     button.classList.remove('hidden');
     loader.classList.add('hidden');
+}
+
+function cleanBasicInfo(parentElement) {
+    parentElement.children[0].classList.remove('invalid');
+    parentElement.children[2].classList.remove('invalid');
+    parentElement.children[4].classList.remove('invalid');
+    parentElement.children[6].classList.remove('invalid');
+    parentElement.children[1].innerHTML = '';
+    parentElement.children[3].innerHTML = '';
+    parentElement.children[5].innerHTML = '';
+    parentElement.children[7].innerHTML = '';
 }

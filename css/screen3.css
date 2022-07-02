@@ -34,7 +34,7 @@
     height: 46px;
     border: 1px solid #D1D1D1;
     border-radius: 5px;
-    margin-bottom: 0.7em;
+    /* margin-bottom: 0.7em; */
     padding-left: 1em;
     color: #000000;
     font-size: 18px;
@@ -132,6 +132,17 @@
     margin-top: 46px;
     min-height: 180px;
     max-height: 266px;
+}
+
+.creating-quiz-basic-questions input.invalid {
+    background-color: #FFE9E9;
+}
+
+.creating-quiz-basic-questions p {
+    color: #EC362D;
+    font-size: 16px;
+    margin-top: 0.2em;
+    margin-bottom: 0.5em;
 }
 
 .hidden {
