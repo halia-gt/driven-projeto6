@@ -5,26 +5,36 @@ let arrayLevelObj = [];
 
 const creationQuizzLayout = `
     <div class="creating-quiz-question-title">
-    <input type="text" placeholder="Texto da pergunta">
-    <input type="text" placeholder="Cor de fundo da pergunta">
+        <input type="text" placeholder="Texto da pergunta">
+        <p></p>
+        <input type="color" placeholder="Cor de fundo da pergunta">
+        <p></p>
     </div>
     <h3>Resposta correta</h3>
     <div class="creating-quiz-question-correct">
-    <input type="text" placeholder="Resposta correta">
-    <input type="text" placeholder="URL da imagem">
+        <input type="text" placeholder="Resposta correta">
+        <p></p>
+        <input type="text" placeholder="URL da imagem">
+        <p></p>
     </div>
     <h3>Respostas incorretas</h3>
     <div class="creating-quiz-question-incorrect">
-    <input type="text" placeholder="Resposta incorreta 1">
-    <input type="text" placeholder="URL da imagem 1">
+        <input type="text" placeholder="Resposta incorreta 1">
+        <p></p>
+        <input type="text" placeholder="URL da imagem 1">
+        <p></p>
     </div>
     <div class="creating-quiz-question-incorrect">
-    <input type="text" placeholder="Resposta incorreta 2">
-    <input type="text" placeholder="URL da imagem 2">
+        <input type="text" placeholder="Resposta incorreta 2">
+        <p></p>
+        <input type="text" placeholder="URL da imagem 2">
+        <p></p>
     </div>
     <div class="creating-quiz-question-incorrect">
-    <input type="text" placeholder="Resposta incorreta 3">
-    <input type="text" placeholder="URL da imagem 3">
+        <input type="text" placeholder="Resposta incorreta 3">
+        <p></p>
+        <input type="text" placeholder="URL da imagem 3">
+        <p></p>
     </div>
 `;
 
@@ -52,8 +62,6 @@ function renderQuizzCreation(){
     //     alert("Requisitos:\n-Título do quizz: deve ter no mínimo 20 e no máximo 65 caracteres\n-A URL da Imagem deve ser uma URL válida\n-Mínimo de perguntas: 3\n-Mínimo de níveis: 2");
     // }, 300);
 }
-
-
 
 function basicInformation(){
     const dom = document.querySelector(".creating-quiz-basic-questions");
@@ -137,9 +145,9 @@ function renderQuizzQuestions(){
 
     document.querySelector(".creating-quiz-questions-container").innerHTML += quizzQuestionButton;
 
-    setTimeout(function(){
-        alert("Requisitos:\n-Texto da pergunta: no mínimo 20 caracteres\n-Cor de fundo: deve ser uma cor em hexadecimal (começar com #)\n-Textos das respostas: não pode estar vazio\n-A URL das imagens de resposta deve ser uma URL válida\n-Deve ter no mínimo uma pergunta incorreta, caso não queira mais respostas incorretas não preencher o campo da resposta");
-    }, 300);
+    // setTimeout(function(){
+    //     alert("Requisitos:\n-Texto da pergunta: no mínimo 20 caracteres\n-Cor de fundo: deve ser uma cor em hexadecimal (começar com #)\n-Textos das respostas: não pode estar vazio\n-A URL das imagens de resposta deve ser uma URL válida\n-Deve ter no mínimo uma pergunta incorreta, caso não queira mais respostas incorretas não preencher o campo da resposta");
+    // }, 300);
 }
 
 function openingClosedQuestion(elemento){
@@ -161,19 +169,34 @@ function quizzQuestions(){
 
     if(arrayQuestions.length === Number(numberQuestions)){
         for(let i=0; i<arrayQuestions.length; i++){
-            if((checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[1].value)) && (checksAnswer(correctAnswer[i].children[0].value, correctAnswer[i].children[1].value)) && (filterAnswer(incorrectAnswer, (i+1)*3))) {
+            if((checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[2].value)) && checksAnswer(correctAnswer[i].children[0].value) && validURL(correctAnswer[i].children[2].value) && (filterAnswer(incorrectAnswer, (i+1)*3))) {
                 counterTrue++;
                 arrayQuestionsObj.push({
                     title: titleQuestion[i].children[0].value,
                     color: titleQuestion[i].children[1].value,
                     answers: createAnswerObjects(createAnswerArray(correctAnswer, incorrectAnswer, i))
                 });
+            } else {
+                if (!checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[2].value)) {
+                    titleQuestion[i].children[0].classList.add('invalid');
+                    titleQuestion[i].children[1].innerHTML = 'A pergunta deve conter no mínimo 20 caracteres';
+                }
+
+                if (!checksAnswer(correctAnswer[i].children[0].value)) {
+                    correctAnswer[i].children[0].classList.add('invalid');
+                    correctAnswer[i].children[1].innerHTML = 'Deve haver uma resposta correta';
+                }
+
+                if (!validURL(correctAnswer[i].children[2].value)) {
+                    correctAnswer[i].children[2].classList.add('invalid');
+                    correctAnswer[i].children[3].innerHTML = 'O valor informado não é uma URL válida';
+                }
             }
         }
         if(counterTrue === Number(numberQuestions)) renderLevelQuizz();
         else {
             alert("Preencha os dados novamente!");
-            renderQuizzQuestions(numberQuestions);
+            // renderQuizzQuestions(numberQuestions);
         }
     }
 }
@@ -271,8 +294,8 @@ function checksTitleQuestion(string1, string2){
     else return false;
 }
 
-function checksAnswer(string1, string2){
-    if((string1.length != 0) && (validURL(string2))) return true;
+function checksAnswer(string1){
+    if(string1.length != 0) return true;
     else return false;
 }
 

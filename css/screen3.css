@@ -36,6 +36,7 @@
     border-radius: 5px;
     /* margin-bottom: 0.7em; */
     padding-left: 1em;
+    padding-right: 1em;
     color: #000000;
     font-size: 18px;
 }
@@ -134,11 +135,20 @@
     max-height: 266px;
 }
 
-.creating-quiz-basic-questions input.invalid {
+.creating-quiz-basic-questions input.invalid, 
+.creating-quiz-question-title input.invalid,
+.creating-quiz-question-correct input.invalid,
+.creating-quiz-question-incorrect input.invalid,
+.creating-quiz-level input.invalid,
+.creating-quiz-level textarea.invalid {
     background-color: #FFE9E9;
 }
 
-.creating-quiz-basic-questions p {
+.creating-quiz-basic-questions p,
+.creating-quiz-question-title p,
+.creating-quiz-question-correct p,
+.creating-quiz-question-incorrect p,
+.creating-quiz-level p {
     color: #EC362D;
     font-size: 16px;
     margin-top: 0.2em;
