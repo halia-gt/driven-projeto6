@@ -56,6 +56,7 @@ function renderAllQuizzes() {
 
         if(checksLocalStorage(quiz.id)) {
             userQuizz.innerHTML += quizTemplate;
+            document.querySelector(".quiz").innerHTML += `<div class="editRemoveBox"><img src="./images/create-outline.png"><ion-icon name="trash-outline"></ion-icon></div>`;
             document.querySelector(".no-quiz").classList.add("hidden");
             checksYourQuizz = true;
         }

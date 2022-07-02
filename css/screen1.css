@@ -65,7 +65,32 @@
     cursor: pointer;
 }
 
-.quiz-list .quiz img {
+.editRemoveBox{
+    position: absolute;
+    top: 9px;
+    right: 0;
+    width: 43px;
+    height: 87px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #EC362D;
+    border-radius: 10px 0px 0px 11px;
+}
+
+.editRemoveBox ion-icon{
+    font-size: 20px;
+}
+
+.quiz-list .quiz .editRemoveBox img{
+    margin-left: 2px;
+    width: 18px;
+    height: 18px;
+    object-fit: initial;
+}
+
+.quiz-list .quiz img{
     width: 100%;
     height: 180px;
     object-fit: cover;
