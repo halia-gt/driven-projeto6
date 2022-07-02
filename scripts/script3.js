@@ -41,6 +41,7 @@ function displayScreenHome() {
 function renderAllQuizzes() {
     const quizList = document.querySelector('.all-quizzes .quiz-list');
     const userQuizz = document.querySelector('.your-quizzes .quiz-list');
+    const topOfPage = document.querySelector('.your-quizzes-container');
 
     userQuizz.innerHTML = '';
     quizList.innerHTML = '';
@@ -79,6 +80,11 @@ function renderAllQuizzes() {
 
     if(checksYourQuizz === false) document.querySelector(".your-quizzes").classList.add("hidden");
     showHome();
+    topOfPage.scrollIntoView({
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center'
+    });
 }
 
 function checksLocalStorage(id){

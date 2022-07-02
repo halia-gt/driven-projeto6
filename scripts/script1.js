@@ -407,7 +407,7 @@ function renderSuccessScreen(){
     </section>
     <section class="button hidden">
         <button class="acess-quiz" onclick="renderYourQuizz();">Acessar Quizz</button>
-        <p onclick="renderStartPage();">Voltar pra home</p>
+        <p onclick="getQuizzes();">Voltar pra home</p>
     </section>
     `;
 

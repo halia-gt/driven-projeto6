@@ -175,7 +175,7 @@ function displayAnswer(percentage, i) {
         </section>
         <section class="button">
             <button class="restart-quiz" onclick="restartQuiz();">Reiniciar Quizz</button>
-            <p onclick="renderStartPage();">Voltar pra home</p>
+            <p onclick="getQuizzes();">Voltar pra home</p>
         </section>
     `
     setTimeout( function () {
