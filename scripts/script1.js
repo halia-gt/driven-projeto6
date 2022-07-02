@@ -375,7 +375,8 @@ function sendLocalStorage(msg){
         title: userQuizz.title,
         image: userQuizz.image,
         questions: userQuizz.questions,
-        levels: userQuizz.levels
+        levels: userQuizz.levels,
+        key: userQuizz.key
     }
     
     const dadosSerializados = JSON.stringify(quizObject);

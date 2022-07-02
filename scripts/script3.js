@@ -55,8 +55,14 @@ function renderAllQuizzes() {
         `;
 
         if(checksLocalStorage(quiz.id)) {
-            userQuizz.innerHTML += quizTemplate;
-            document.querySelector(".quiz").innerHTML += `<div class="editRemoveBox"><img src="./images/create-outline.png"><ion-icon name="trash-outline"></ion-icon></div>`;
+            userQuizz.innerHTML += `
+                <div class="quiz" onclick="getQuiz(this);" id="${quiz.id}">
+                    <div class="editRemoveBox"><img src="./images/create-outline.png"><ion-icon onclick="deleteQuizz(this);" name="trash-outline"></ion-icon></div>
+                    <img src="${quiz.image}">
+                    <div class="quiz-gradient"></div>
+                    <p>${quiz.title}</p>
+                </div>
+            `;
             document.querySelector(".no-quiz").classList.add("hidden");
             checksYourQuizz = true;
         }
@@ -82,3 +88,27 @@ function renderStartPage() {
 }
 
 renderStartPage();
+
+
+function deleteQuizz(element){
+    if(window.confirm("Você realmente deseja excluir esse Quizz?")){
+
+    const id = (element.parentNode.parentNode.id);
+
+    const listaSerializada = localStorage.getItem(id);
+    const lista = JSON.parse(listaSerializada);
+
+    const headers = {
+        'Secret-Key': lista.key
+      }
+      
+    const promise = axios.delete(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${id}`,{headers});
+    
+    promise.then(renderStartPage);
+    promise.catch(error);
+    }else;
+}
+
+function error (msg){
+    console.log(msg);
+}
