@@ -361,7 +361,7 @@ function sendQuizzAPI(){
     }
     
     const promise = axios.post('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes', quizObject);  
-    
+    loading();
     promise.then(sendLocalStorage);
     promise.catch(errorSendAPI); 
 
@@ -396,18 +396,30 @@ function renderYourQuizz(){
 
 function renderSuccessScreen(){
 
-    document.querySelector("main").innerHTML = `
-    <section class="created-quiz-container">
-    <h3 class="title">Seu quizz está pronto!</h3>
-    <div class="quiz">
-        <img src="${imgUrl}">
-        <div class="quiz-gradient"></div>
-        <p>${quizzTitle}</p>
-    </div>
+    document.querySelector('main').innerHTML += `
+    <section class="created-quiz-container hidden">
+        <h3 class="title">Seu quizz está pronto!</h3>
+        <div class="quiz">
+            <img src="${imgUrl}">
+            <div class="quiz-gradient"></div>
+            <p>${quizzTitle}</p>
+        </div>
     </section>
-    <section class="button">
+    <section class="button hidden">
         <button class="acess-quiz" onclick="renderYourQuizz();">Acessar Quizz</button>
         <p onclick="renderStartPage();">Voltar pra home</p>
     </section>
     `;
+
+    showSuccessScreen();
+}
+
+function showSuccessScreen() {
+    const createdQuizContainer = document.querySelector('.created-quiz-container');
+    const button = document.querySelector('.button');
+    const loader = document.querySelector('.loader');
+
+    createdQuizContainer.classList.remove('hidden');
+    button.classList.remove('hidden');
+    loader.classList.add('hidden');
 }
