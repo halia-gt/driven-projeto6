@@ -112,7 +112,6 @@ function deleteQuizz(element){
         }
         
         const promise = axios.delete(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${id}`,{headers});
-        
         promise.then(getQuizzes);
         promise.catch(error);
     } else;
