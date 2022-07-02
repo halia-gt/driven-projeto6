@@ -6,35 +6,35 @@ let arrayLevelObj = [];
 const creationQuizzLayout = `
     <div class="creating-quiz-question-title">
         <input type="text" placeholder="Texto da pergunta">
-        <p></p>
+        <p class="p-invalid"></p>
         <input type="color" placeholder="Cor de fundo da pergunta">
-        <p></p>
+        <p class="p-invalid"></p>
     </div>
     <h3>Resposta correta</h3>
     <div class="creating-quiz-question-correct">
         <input type="text" placeholder="Resposta correta">
-        <p></p>
+        <p class="p-invalid"></p>
         <input type="text" placeholder="URL da imagem">
-        <p></p>
+        <p class="p-invalid"></p>
     </div>
     <h3>Respostas incorretas</h3>
     <div class="creating-quiz-question-incorrect">
         <input type="text" placeholder="Resposta incorreta 1">
-        <p></p>
+        <p class="p-invalid"></p>
         <input type="text" placeholder="URL da imagem 1">
-        <p></p>
+        <p class="p-invalid"></p>
     </div>
     <div class="creating-quiz-question-incorrect">
         <input type="text" placeholder="Resposta incorreta 2">
-        <p></p>
+        <p class="p-invalid"></p>
         <input type="text" placeholder="URL da imagem 2">
-        <p></p>
+        <p class="p-invalid"></p>
     </div>
     <div class="creating-quiz-question-incorrect">
         <input type="text" placeholder="Resposta incorreta 3">
-        <p></p>
+        <p class="p-invalid"></p>
         <input type="text" placeholder="URL da imagem 3">
-        <p></p>
+        <p class="p-invalid"></p>
     </div>
 `;
 
