@@ -148,7 +148,8 @@
 .creating-quiz-question-title p,
 .creating-quiz-question-correct p,
 .creating-quiz-question-incorrect p,
-.creating-quiz-level p {
+.creating-quiz-level p,
+.creating-quiz-questions-container>p {
     color: #EC362D;
     font-size: 16px;
     margin-top: 0.2em;

@@ -58,9 +58,6 @@ function renderQuizzCreation(){
     `;
 
     document.querySelector("main").innerHTML = layoutBasicInformation;
-    // setTimeout(function(){
-    //     alert("Requisitos:\n-Título do quizz: deve ter no mínimo 20 e no máximo 65 caracteres\n-A URL da Imagem deve ser uma URL válida\n-Mínimo de perguntas: 3\n-Mínimo de níveis: 2");
-    // }, 300);
 }
 
 function basicInformation(){
@@ -118,7 +115,8 @@ function validURL(string){
 
 function renderQuizzQuestions(){
 
-    const quizzQuestionButton = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>`;
+    const quizzQuestionButton = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>
+    <p></p>`;
     
     const quizzQuestionLayout = `
         <section class="creating-quiz-questions-container banner">
@@ -144,10 +142,6 @@ function renderQuizzQuestions(){
     } 
 
     document.querySelector(".creating-quiz-questions-container").innerHTML += quizzQuestionButton;
-
-    // setTimeout(function(){
-    //     alert("Requisitos:\n-Texto da pergunta: no mínimo 20 caracteres\n-Cor de fundo: deve ser uma cor em hexadecimal (começar com #)\n-Textos das respostas: não pode estar vazio\n-A URL das imagens de resposta deve ser uma URL válida\n-Deve ter no mínimo uma pergunta incorreta, caso não queira mais respostas incorretas não preencher o campo da resposta");
-    // }, 300);
 }
 
 function openingClosedQuestion(elemento){
@@ -191,13 +185,19 @@ function quizzQuestions(){
                     correctAnswer[i].children[2].classList.add('invalid');
                     correctAnswer[i].children[3].innerHTML = 'O valor informado não é uma URL válida';
                 }
+
+                if (!filterAnswer(incorrectAnswer, (i+1)*3)) {
+                    const arrayAux = renderArrayIncorrect(incorrectAnswer, (i+1)*3);
+                    arrayAux[0].children[0].classList.add('invalid');
+                    arrayAux[0].children[1].innerHTML = 'Pelo menos uma resposta errada é necessária';
+                }
             }
         }
+
         if(counterTrue === Number(numberQuestions)) renderLevelQuizz();
-        else {
-            alert("Preencha os dados novamente!");
-            // renderQuizzQuestions(numberQuestions);
-        }
+    } else {
+        const p = document.querySelector(".creating-quiz-questions-container>p");
+        p.innerHTML = 'Todas as perguntas devem ser preenchidas';
     }
 }
 
@@ -260,9 +260,9 @@ function filterAnswer(array, counter){
     let checkTrue=[], arrayAux;
     arrayAux = renderArrayIncorrect(array, counter);
     for(let i=0; i<arrayAux.length; i++) {
-        if((arrayAux[i].children[0].value) === "" && (arrayAux[i].children[1].value) === "") checkTrue.push(0);
+        if((arrayAux[i].children[0].value) === "" && (arrayAux[i].children[2].value) === "") checkTrue.push(0);
         else {
-            if(checksAnswer(arrayAux[i].children[0].value, arrayAux[i].children[1].value)) checkTrue.push(1);
+            if(checksAnswer(arrayAux[i].children[0].value, arrayAux[i].children[2].value)) checkTrue.push(1);
             else checkTrue.push(2);
         }
     }
