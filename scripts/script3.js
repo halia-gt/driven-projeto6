@@ -106,7 +106,7 @@ function deleteQuizz(element){
     
     promise.then(renderStartPage);
     promise.catch(error);
-    }else;
+    }
 }
 
 function error (msg){
