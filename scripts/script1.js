@@ -5,26 +5,36 @@ let arrayLevelObj = [];
 
 const creationQuizzLayout = `
     <div class="creating-quiz-question-title">
-    <input type="text" placeholder="Texto da pergunta">
-    <input type="text" placeholder="Cor de fundo da pergunta">
+        <input type="text" placeholder="Texto da pergunta">
+        <p class="p-invalid"></p>
+        <input type="color" placeholder="Cor de fundo da pergunta">
+        <p class="p-invalid"></p>
     </div>
     <h3>Resposta correta</h3>
     <div class="creating-quiz-question-correct">
-    <input type="text" placeholder="Resposta correta">
-    <input type="text" placeholder="URL da imagem">
+        <input type="text" placeholder="Resposta correta">
+        <p class="p-invalid"></p>
+        <input type="text" placeholder="URL da imagem">
+        <p class="p-invalid"></p>
     </div>
     <h3>Respostas incorretas</h3>
     <div class="creating-quiz-question-incorrect">
-    <input type="text" placeholder="Resposta incorreta 1">
-    <input type="text" placeholder="URL da imagem 1">
+        <input type="text" placeholder="Resposta incorreta 1">
+        <p class="p-invalid"></p>
+        <input type="text" placeholder="URL da imagem 1">
+        <p class="p-invalid"></p>
     </div>
     <div class="creating-quiz-question-incorrect">
-    <input type="text" placeholder="Resposta incorreta 2">
-    <input type="text" placeholder="URL da imagem 2">
+        <input type="text" placeholder="Resposta incorreta 2">
+        <p class="p-invalid"></p>
+        <input type="text" placeholder="URL da imagem 2">
+        <p class="p-invalid"></p>
     </div>
     <div class="creating-quiz-question-incorrect">
-    <input type="text" placeholder="Resposta incorreta 3">
-    <input type="text" placeholder="URL da imagem 3">
+        <input type="text" placeholder="Resposta incorreta 3">
+        <p class="p-invalid"></p>
+        <input type="text" placeholder="URL da imagem 3">
+        <p class="p-invalid"></p>
     </div>
 `;
 
@@ -35,29 +45,29 @@ function renderQuizzCreation(){
             <h3 class="title">Comece pelo começo</h3>
             <div class="creating-quiz-basic-questions">
                 <input type="text" placeholder="Título do seu quizz">
+                <p></p>
                 <input type="url" placeholder="URL da imagem do seu quizz">
+                <p></p>
                 <input type="number" placeholder="Quantidade de perguntas do quizz">
+                <p></p>
                 <input type="number" placeholder="Quantidade de níveis do quizz">
+                <p></p>
             </div>
             <button type="button" onclick="basicInformation();">Prosseguir pra criar perguntas</button>
         </section>
     `;
 
-    document.querySelector("main").innerHTML = layoutBasicInformation
-    setTimeout(function(){
-        alert("Requisitos:\n-Título do quizz: deve ter no mínimo 20 e no máximo 65 caracteres\n-A URL da Imagem deve ser uma URL válida\n-Mínimo de perguntas: 3\n-Mínimo de níveis: 2");
-    }, 300);
+    document.querySelector("main").innerHTML = layoutBasicInformation;
 }
 
-
-
 function basicInformation(){
-    
     const dom = document.querySelector(".creating-quiz-basic-questions");
+    cleanBasicInfo(dom);
+
     const title = dom.children[0].value;
-    const url = dom.children[1].value;
-    const qttQuestions = dom.children[2].value;
-    const qttLevel = dom.children[3].value;
+    const url = dom.children[2].value;
+    const qttQuestions = dom.children[4].value;
+    const qttLevel = dom.children[6].value;
 
     numberQuestions = qttQuestions;
     numberLevel = qttLevel;
@@ -68,10 +78,29 @@ function basicInformation(){
 }
 
 function checksBasicInformation(title, url, qttQuestions, qttLevel){
+    const dom = document.querySelector(".creating-quiz-basic-questions");
+
     if((title.length >= 20 && title.length <= 65) && (validURL(url)) && (qttQuestions >= 3) && (qttLevel >= 2)) renderQuizzQuestions();
-    else{
-        alert("Preencha novamente os dados!");
-        renderQuizzCreation();
+    else {
+        if (title.length < 20 || title.length > 65) {
+            dom.children[0].classList.add('invalid');
+            dom.children[1].innerHTML = 'Título deve ter no mínimo 20 e no máximo 65 caracteres';
+        }
+
+        if (!(validURL(url))) {
+            dom.children[2].classList.add('invalid');
+            dom.children[3].innerHTML = 'O valor informado não é uma URL válida';
+        }
+
+        if (qttQuestions < 3) {
+            dom.children[4].classList.add('invalid');
+            dom.children[5].innerHTML = 'O quizz deve ter no mínimo 3 perguntas';
+        }
+
+        if (qttLevel < 2) {
+            dom.children[6].classList.add('invalid');
+            dom.children[7].innerHTML = 'O quizz deve ter no mínimo 3 perguntas';
+        }
     }
 }
 
@@ -86,7 +115,8 @@ function validURL(string){
 
 function renderQuizzQuestions(){
 
-    const quizzQuestionButton = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>`;
+    const quizzQuestionButton = `<button type="button" onclick="quizzQuestions();">Prosseguir pra criar níveis</button>
+    <p></p>`;
     
     const quizzQuestionLayout = `
         <section class="creating-quiz-questions-container banner">
@@ -112,10 +142,6 @@ function renderQuizzQuestions(){
     } 
 
     document.querySelector(".creating-quiz-questions-container").innerHTML += quizzQuestionButton;
-
-    setTimeout(function(){
-        alert("Requisitos:\n-Texto da pergunta: no mínimo 20 caracteres\n-Cor de fundo: deve ser uma cor em hexadecimal (começar com #)\n-Textos das respostas: não pode estar vazio\n-A URL das imagens de resposta deve ser uma URL válida\n-Deve ter no mínimo uma pergunta incorreta, caso não queira mais respostas incorretas não preencher o campo da resposta");
-    }, 300);
 }
 
 function openingClosedQuestion(elemento){
@@ -137,20 +163,41 @@ function quizzQuestions(){
 
     if(arrayQuestions.length === Number(numberQuestions)){
         for(let i=0; i<arrayQuestions.length; i++){
-            if((checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[1].value)) && (checksAnswer(correctAnswer[i].children[0].value, correctAnswer[i].children[1].value)) && (filterAnswer(incorrectAnswer, (i+1)*3))) {
+            if((checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[2].value)) && checksAnswer(correctAnswer[i].children[0].value) && validURL(correctAnswer[i].children[2].value) && (filterAnswer(incorrectAnswer, (i+1)*3))) {
                 counterTrue++;
                 arrayQuestionsObj.push({
                     title: titleQuestion[i].children[0].value,
                     color: titleQuestion[i].children[1].value,
                     answers: createAnswerObjects(createAnswerArray(correctAnswer, incorrectAnswer, i))
                 });
+            } else {
+                if (!checksTitleQuestion(titleQuestion[i].children[0].value, titleQuestion[i].children[2].value)) {
+                    titleQuestion[i].children[0].classList.add('invalid');
+                    titleQuestion[i].children[1].innerHTML = 'A pergunta deve conter no mínimo 20 caracteres';
+                }
+
+                if (!checksAnswer(correctAnswer[i].children[0].value)) {
+                    correctAnswer[i].children[0].classList.add('invalid');
+                    correctAnswer[i].children[1].innerHTML = 'Deve haver uma resposta correta';
+                }
+
+                if (!validURL(correctAnswer[i].children[2].value)) {
+                    correctAnswer[i].children[2].classList.add('invalid');
+                    correctAnswer[i].children[3].innerHTML = 'O valor informado não é uma URL válida';
+                }
+
+                if (!filterAnswer(incorrectAnswer, (i+1)*3)) {
+                    const arrayAux = renderArrayIncorrect(incorrectAnswer, (i+1)*3);
+                    arrayAux[0].children[0].classList.add('invalid');
+                    arrayAux[0].children[1].innerHTML = 'Pelo menos uma resposta errada é necessária';
+                }
             }
         }
+
         if(counterTrue === Number(numberQuestions)) renderLevelQuizz();
-        else {
-            alert("Preencha os dados novamente!");
-            renderQuizzQuestions(numberQuestions);
-        }
+    } else {
+        const p = document.querySelector(".creating-quiz-questions-container>p");
+        p.innerHTML = 'Todas as perguntas devem ser preenchidas';
     }
 }
 
@@ -213,9 +260,9 @@ function filterAnswer(array, counter){
     let checkTrue=[], arrayAux;
     arrayAux = renderArrayIncorrect(array, counter);
     for(let i=0; i<arrayAux.length; i++) {
-        if((arrayAux[i].children[0].value) === "" && (arrayAux[i].children[1].value) === "") checkTrue.push(0);
+        if((arrayAux[i].children[0].value) === "" && (arrayAux[i].children[2].value) === "") checkTrue.push(0);
         else {
-            if(checksAnswer(arrayAux[i].children[0].value, arrayAux[i].children[1].value)) checkTrue.push(1);
+            if(checksAnswer(arrayAux[i].children[0].value, arrayAux[i].children[2].value)) checkTrue.push(1);
             else checkTrue.push(2);
         }
     }
@@ -247,8 +294,8 @@ function checksTitleQuestion(string1, string2){
     else return false;
 }
 
-function checksAnswer(string1, string2){
-    if((string1.length != 0) && (validURL(string2))) return true;
+function checksAnswer(string1){
+    if(string1.length != 0) return true;
     else return false;
 }
 
@@ -361,7 +408,7 @@ function sendQuizzAPI(){
     }
     
     const promise = axios.post('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes', quizObject);  
-    
+    loading();
     promise.then(sendLocalStorage);
     promise.catch(errorSendAPI); 
 
@@ -396,18 +443,41 @@ function renderYourQuizz(){
 
 function renderSuccessScreen(){
 
-    document.querySelector("main").innerHTML = `
-    <section class="created-quiz-container">
-    <h3 class="title">Seu quizz está pronto!</h3>
-    <div class="quiz">
-        <img src="${imgUrl}">
-        <div class="quiz-gradient"></div>
-        <p>${quizzTitle}</p>
-    </div>
+    document.querySelector('main').innerHTML += `
+    <section class="created-quiz-container hidden">
+        <h3 class="title">Seu quizz está pronto!</h3>
+        <div class="quiz">
+            <img src="${imgUrl}">
+            <div class="quiz-gradient"></div>
+            <p>${quizzTitle}</p>
+        </div>
     </section>
-    <section class="button">
+    <section class="button hidden">
         <button class="acess-quiz" onclick="renderYourQuizz();">Acessar Quizz</button>
-        <p onclick="renderStartPage();">Voltar pra home</p>
+        <p onclick="getQuizzes();">Voltar pra home</p>
     </section>
     `;
+
+    showSuccessScreen();
+}
+
+function showSuccessScreen() {
+    const createdQuizContainer = document.querySelector('.created-quiz-container');
+    const button = document.querySelector('.button');
+    const loader = document.querySelector('.loader');
+
+    createdQuizContainer.classList.remove('hidden');
+    button.classList.remove('hidden');
+    loader.classList.add('hidden');
+}
+
+function cleanBasicInfo(parentElement) {
+    parentElement.children[0].classList.remove('invalid');
+    parentElement.children[2].classList.remove('invalid');
+    parentElement.children[4].classList.remove('invalid');
+    parentElement.children[6].classList.remove('invalid');
+    parentElement.children[1].innerHTML = '';
+    parentElement.children[3].innerHTML = '';
+    parentElement.children[5].innerHTML = '';
+    parentElement.children[7].innerHTML = '';
 }

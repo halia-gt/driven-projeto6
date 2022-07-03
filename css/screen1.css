@@ -65,7 +65,7 @@
     cursor: pointer;
 }
 
-.editRemoveBox{
+.editRemoveBox {
     position: absolute;
     top: 9px;
     right: 0;
@@ -74,16 +74,18 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     background-color: #EC362D;
     border-radius: 10px 0px 0px 11px;
 }
 
-.editRemoveBox ion-icon{
+.editRemoveBox ion-icon {
     font-size: 20px;
+    color: #FFFFFF;
+    --ionicon-stroke-width: 40px;
 }
 
-.quiz-list .quiz .editRemoveBox img{
+.editRemoveBox img {
     margin-left: 2px;
     width: 18px;
     height: 18px;

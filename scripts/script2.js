@@ -5,16 +5,16 @@ let rightAnswers = 0;
 function getQuiz(element) {
     const id = element.id;
     const promise = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${id}`);
+    loading();
     promise.then(renderQuizBanner);
 }
 
 function renderQuizBanner(answer) {
     const main = document.querySelector('main');
-    main.innerHTML = '';
     quiz = answer.data;
 
     const bannerTemplate = `
-        <section class="quiz-header banner">
+        <section class="quiz-header banner hidden">
             <img src="${quiz.image}">
             <div class="quiz-header-opacity"></div>
             <p>${quiz.title}</p>
@@ -30,7 +30,7 @@ function renderQuizQuestions(main) {
     for (let i = 0 ; i < numberQuestions ; i++) {
         const question = quiz.questions[i];
         const questionTemplate = `
-            <section class="quiz-question-container banner">
+            <section class="quiz-question-container banner hidden">
                 <div class="quiz-question">
                     <p>${question.title}</p>
                 </div>
@@ -43,6 +43,9 @@ function renderQuizQuestions(main) {
         thisQuestion.querySelector('.quiz-question').style.backgroundColor = question.color;
         displayQuestionOptions(question.answers, thisQuestion, i);
     }
+
+    showQuiz();
+
     const banner = document.querySelector('.quiz-header');
     banner.scrollIntoView({
         behavior: 'auto',
@@ -87,7 +90,6 @@ function selectOption(element, questionNumber, answerNumber) {
         i++;
     });
 
-    // Perguntar aqui se é a última resposta dada, fazer os cálculos se for, e apresentar os resultados
     if (isAllAnswered() === true) {
         calcAnswer();
         answeredQuestions = 0;
@@ -173,7 +175,7 @@ function displayAnswer(percentage, i) {
         </section>
         <section class="button">
             <button class="restart-quiz" onclick="restartQuiz();">Reiniciar Quizz</button>
-            <p onclick="renderStartPage();">Voltar pra home</p>
+            <p onclick="getQuizzes();">Voltar pra home</p>
         </section>
     `
     setTimeout( function () {
@@ -192,4 +194,14 @@ function restartQuiz() {
         block: 'center',
         inline: 'center'
     });
+}
+
+function showQuiz() {
+    const banner = document.querySelector('.quiz-header');
+    const questions = document.querySelectorAll('.quiz-question-container');
+    const loader = document.querySelector('.loader');
+
+    loader.classList.add('hidden');
+    banner.classList.remove('hidden');
+    questions.forEach( question => question.classList.remove('hidden') );
 }
