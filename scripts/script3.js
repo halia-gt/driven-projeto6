@@ -51,8 +51,8 @@ function renderAllQuizzes() {
     for (let i = 0 ; i < allQuizArray.length ; i++) {
         const quiz = allQuizArray[i];
         let quizTemplate = `
-            <div class="quiz" onclick="getQuiz(this);" id="${quiz.id}">
-                <img src="${quiz.image}">
+            <div class="quiz" >
+                <img src="${quiz.image}" onclick="getQuiz(this);" id="${quiz.id}">
                 <div class="quiz-gradient"></div>
                 <p>${quiz.title}</p>
             </div>
@@ -62,7 +62,7 @@ function renderAllQuizzes() {
             userQuizz.innerHTML += `
                 <div class="quiz" onclick="getQuiz(this);" id="${quiz.id}">
                     <div class="editRemoveBox">
-                    <ion-icon name="create-outline"></ion-icon>
+                        <ion-icon name="create-outline"></ion-icon>
                         <ion-icon onclick="deleteQuizz(this);" name="trash-outline"></ion-icon>
                     </div>
                     <img src="${quiz.image}">
