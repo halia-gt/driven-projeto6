@@ -34,6 +34,7 @@
     height: 46px;
     border: 1px solid #D1D1D1;
     border-radius: 5px;
+    margin-bottom: 0.7em;
     padding-left: 1em;
     padding-right: 1em;
     color: #000000;
@@ -118,6 +119,7 @@
 
 .creating-quiz-level textarea {
     padding-top: 0.7em;
+    font-family: 'Roboto', sans-serif;
 }
 
 .created-quiz-container {
@@ -132,27 +134,6 @@
     margin-top: 46px;
     min-height: 180px;
     max-height: 266px;
-}
-
-.creating-quiz-basic-questions input.invalid, 
-.creating-quiz-question-title input.invalid,
-.creating-quiz-question-correct input.invalid,
-.creating-quiz-question-incorrect input.invalid,
-.creating-quiz-level input.invalid,
-.creating-quiz-level textarea.invalid {
-    background-color: #FFE9E9;
-}
-
-.creating-quiz-basic-questions p,
-.creating-quiz-question-title p,
-.creating-quiz-question-correct p,
-.creating-quiz-question-incorrect p,
-.creating-quiz-level p,
-.creating-quiz-questions-container>p {
-    color: #EC362D;
-    font-size: 16px;
-    margin-top: 0.2em;
-    margin-bottom: 0.5em;
 }
 
 .hidden {

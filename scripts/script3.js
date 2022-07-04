@@ -51,7 +51,7 @@ function renderAllQuizzes() {
     for (let i = 0 ; i < allQuizArray.length ; i++) {
         const quiz = allQuizArray[i];
         let quizTemplate = `
-            <div class="quiz" >
+            <div class="quiz">
                 <img src="${quiz.image}" onclick="getQuiz(this);" id="${quiz.id}">
                 <div class="quiz-gradient"></div>
                 <p>${quiz.title}</p>
@@ -60,12 +60,12 @@ function renderAllQuizzes() {
 
         if(checksLocalStorage(quiz.id)) {
             userQuizz.innerHTML += `
-                <div class="quiz" onclick="getQuiz(this);" id="${quiz.id}">
+                <div class="quiz">
                     <div class="editRemoveBox">
                         <ion-icon name="create-outline"></ion-icon>
                         <ion-icon onclick="deleteQuizz(this);" name="trash-outline"></ion-icon>
                     </div>
-                    <img src="${quiz.image}">
+                    <img src="${quiz.image}" onclick="getQuiz(this);" id="${quiz.id}">
                     <div class="quiz-gradient"></div>
                     <p>${quiz.title}</p>
                 </div>
@@ -102,7 +102,7 @@ getQuizzes();
 function deleteQuizz(element){
     if(window.confirm("Você realmente deseja excluir esse Quizz?")){
         
-        const id = (element.parentNode.parentNode.id);
+        const id = (element.parentNode.nextElementSibling.id);
 
         const listaSerializada = localStorage.getItem(id);
         const lista = JSON.parse(listaSerializada);
